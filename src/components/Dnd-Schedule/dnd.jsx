@@ -3,7 +3,7 @@ import React from 'react';
 import Scheduler, { AppointmentDragging } from 'devextreme-react/scheduler';
 import Draggable from 'devextreme-react/draggable';
 import ScrollView from 'devextreme-react/scroll-view';
-
+import './style.css'
 import { appointments, tasks } from './data.js';
 
 const currentDate = new Date(2017, 4, 22);

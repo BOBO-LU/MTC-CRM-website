@@ -6,7 +6,7 @@ import {KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers'
 
 export default function DatePickers() {
   
-    const [selectedDate, setSelectedDate] = useState();
+    const [selectedDate, setSelectedDate] = useState(1);
 
     const handleDateChange = (date) => {
       setSelectedDate(date);

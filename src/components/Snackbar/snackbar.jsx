@@ -5,8 +5,11 @@ import { SnackbarProvider, useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      '& > *': {
         margin: theme.spacing(1),
+        // border: "5px",
+        float: "right",
+      '& > *': {
+        
       },
     },
 }));
@@ -21,7 +24,7 @@ function Snackbar(props) {
     };
 
     return (
-        <Button size="small" variant="contained" onClick={handleClickVariant('success')} >{props.text}</Button>
+        <Button className={classes.root} size="small" variant="contained" onClick={handleClickVariant('success')} >{props.text}</Button>
     );
 }
 
