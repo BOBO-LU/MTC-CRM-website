@@ -5,7 +5,7 @@ import { SnackbarProvider, useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        margin: theme.spacing(1),
+        margin: theme.spacing(1.5),
         // border: "5px",
         float: "right",
       '& > *': {
