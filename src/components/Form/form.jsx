@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import Snackbar from '../Snackbar/snackbar';
 import TransferList from '../TransferList/transferList'
-import DatePicker from '../DatePicker/datePicker'
+import {PickerDate} from '../DatePicker/datePicker'
 
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -34,7 +34,7 @@ export default class Form extends Component {
 					<div>
 						<TextField  required id="standard-basic" label="ENGAGEMENT ID" />
 						<TextField  required id="standard-basic" label="REQUESTER (ALIAS)" />
-						<DatePicker />
+						<PickerDate />
 						<TextField  required id="standard-basic" label="START TIME" />
 						{/* <TextField  required id="standard-basic" label="DATE" /> */}
 						
