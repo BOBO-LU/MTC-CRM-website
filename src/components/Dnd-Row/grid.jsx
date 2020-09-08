@@ -1,5 +1,5 @@
 import React from 'react';
-import DataGrid, { Column, RowDragging, Scrolling, Lookup, Sorting } from 'devextreme-react/data-grid';
+import DataGrid, { Column, RowDragging, Scrolling, Lookup, Sorting, Editing} from 'devextreme-react/data-grid';
 import { CheckBox } from 'devextreme-react/check-box';
 
 class Grid extends React.Component {
@@ -51,7 +51,7 @@ class Grid extends React.Component {
                 showBorders={true}
                 filterValue={this.filterExpr}
                 noDataText=""
-            >
+            >   
                 <RowDragging
                     allowReordering={true}
                     data={this.props.status}
@@ -66,12 +66,22 @@ class Grid extends React.Component {
                     dataType="string"
                     caption="編號"
                     alignment='center'
-                    width={50}
+                    width={45}
+                    hidingPriority={1}
                 /> 
                 <Column
                     dataField="courseName"
                     dataType="string"
                     caption={this.props.displayCaption}
+                />
+                <Column
+                    dataField="speaker"
+                    dataType="string"
+                    caption={"講師"}
+                    alignment='center'
+                    width={80}
+                    hidingPriority={2}
+                    
                 />
                 <Column
                     dataField="duration"
@@ -80,6 +90,7 @@ class Grid extends React.Component {
                     visible={true}
                     caption='時間(分)'
                     alignment='center'
+                    hidingPriority={3}
                 >
                 </Column>
                 <Column

@@ -11,7 +11,7 @@ import { PickerDate, PickerTime } from '../DatePicker/datePicker'
 
 import add from '@date-io/date-fns';
 
-import './style.css'
+import './style.css' 
 // import { TimePicker } from '@material-ui/pickers';
 
 const url = 'https://js.devexpress.com/Demos/Mvc/api/DnDBetweenGrids';
@@ -29,6 +29,8 @@ const datasource = new DataSource({
             durationType: 'min',
             capacity: '30',
             startTime: Date.now(),
+            speaker: 'bobo',
+            speaker: 'bobo',
             Status: 1
         },{            
             courseId: 2,
@@ -38,6 +40,7 @@ const datasource = new DataSource({
             durationType: 'min',
             capacity: '10',
             startTime: Date.now(),
+            speaker: 'bobo',
             Status:1
         },
         {
@@ -48,6 +51,7 @@ const datasource = new DataSource({
             durationType: 'min',
             capacity: '10',
             startTime: Date.now(),
+            speaker: 'bobo',
             Status:1
         },
         {
@@ -58,6 +62,7 @@ const datasource = new DataSource({
             durationType: 'min',
             capacity: '10',
             startTime: Date.now(),
+            speaker: 'bobo',
             Status:1
         },
         {
@@ -68,6 +73,7 @@ const datasource = new DataSource({
             durationType: 'min',
             capacity: '10',
             startTime: Date.now(),
+            speaker: 'bobo',
             Status:1
         },{
             courseId: 6,
@@ -77,6 +83,7 @@ const datasource = new DataSource({
             durationType: 'min',
             capacity: '10',
             startTime: Date.now(),
+            speaker: 'bobo',
             Status:1
         },{
             courseId: 7,
@@ -86,6 +93,7 @@ const datasource = new DataSource({
             durationType: 'min',
             capacity: '10',
             startTime: Date.now(),
+            speaker: 'bobo',
             Status:1
         },{
             courseId: 8,
@@ -95,6 +103,7 @@ const datasource = new DataSource({
             durationType: 'min',
             capacity: '10',
             startTime: Date.now(),
+            speaker: 'bobo',
             Status:1
         },
         {
@@ -105,6 +114,7 @@ const datasource = new DataSource({
             durationType: 'min',
             capacity: '10',
             startTime: Date.now(),
+            speaker: 'bobo',
             Status:1
         },
         {
@@ -115,6 +125,7 @@ const datasource = new DataSource({
             durationType: 'min',
             capacity: '10',
             startTime: Date.now(),
+            speaker: 'bobo',
             Status:1
         },
         {
@@ -125,6 +136,7 @@ const datasource = new DataSource({
             durationType: 'min',
             capacity: '10',
             startTime: Date.now(),
+            speaker: 'bobo',
             Status:1
         },	
         {
@@ -135,6 +147,7 @@ const datasource = new DataSource({
             durationType: 'min',
             capacity: '10',
             startTime: Date.now(),
+            speaker: 'bobo',
             Status:1
         },
         {
@@ -145,6 +158,7 @@ const datasource = new DataSource({
             durationType: 'min',
             capacity: '10',
             startTime: Date.now(),
+            speaker: 'bobo',
             Status:1
         },
         {
@@ -155,6 +169,7 @@ const datasource = new DataSource({
             durationType: 'min',
             capacity: '10',
             startTime: Date.now(),
+            speaker: 'bobo',
             Status:1
         }]
         
@@ -210,16 +225,16 @@ class App extends React.Component {
             <StyledTextField id="standard-basic" label="ENGAGEMENT ID" />
             <StyledTextField id="standard-basic" label="REQUESTER (ALIAS)" />
             <PickerDate label="REQUEST DATE"/>
-            <PickerTime label="START TIME" startTime={this.state.startTime} handleTimeChange={(startTime    ) => this.handleTimeChange(startTime)}/>
+            <PickerTime label="START TIME" startTime={this.state.startTime} handleTimeChange={(startTime) => this.handleTimeChange(startTime)}/>
             <StyledTextField id="standard-read-only-input" key={this.state.key} label="END TIME" defaultValue={this.state.endTime} InputProps={{ readOnly: true}}/>
                 
             </div>
             <div className="tables">
             <div className="column">
-                <Grid datasource={datasource.store()} status={1} displayCaption={"課程名稱"} />
+                <Grid datasource={datasource.store()} status={1} displayCaption={"主題名稱"} />
             </div>
             <div className="column">
-                <Grid datasource={datasource.store()} status={2} displayCaption={"選擇課程"} calculateEndTime={(date) => this.calculateEndTime(date)}/>
+                <Grid datasource={datasource.store()} status={2} displayCaption={"選擇主題"} calculateEndTime={(date) => this.calculateEndTime(date)}/>
             </div>
             </div>
             <Snackbar text='submit'/>	
