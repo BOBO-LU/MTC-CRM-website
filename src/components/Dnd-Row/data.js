@@ -1,7 +1,7 @@
 export const courseList = [
     {
         courseId: 0,
-        courseName: '微軟的轉型之旅：從桌面到雲端的革命',
+        courseName: 'MTC導覽',
         courseType: '高端',
         duration: '20',
         durationType: 'min',
