@@ -110,7 +110,9 @@ class App extends React.Component {
                 </div>
                 <div className="tables">
                     <div className="column">
-                        <Grid id={1} datasource={datasource.store()} status={1} displayCaption={"主題名稱"} />
+                        <Grid 
+                        id={1} 
+                        datasource={datasource.store()} status={1} displayCaption={"主題名稱"} /> 
                     </div>
                     <div className="column">
                         <Grid id={2} datasource={datasource.store()} status={2} displayCaption={"選擇主題"} calculateEndTime={(date) => this.calculateEndTime(date)}/>
@@ -143,20 +145,8 @@ class App extends React.Component {
                         <label>時間(分): </label> <input type="text" />
                     </Modal>
                 </div>
+
                 <Snackbar text="submit" />
-                <div className="dx-field">
-                    <div className="dx-field-value">
-                        <Button icon="plus"
-                            disabled={false} />
-                            &nbsp;
-                        <Button icon="back"
-                            disabled={false} />
-                        <Button icon="refresh"
-                        disabled={false} />
-                        <Button icon="remove"
-                        disabled={false} />
-                    </div>
-                </div>
             </div>
         );
     }
