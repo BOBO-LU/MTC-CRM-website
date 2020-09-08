@@ -1,6 +1,14 @@
 import React from 'react';
-import DataGrid, { Column, RowDragging, Scrolling, Lookup, Sorting, Editing} from 'devextreme-react/data-grid';
+import DataGrid, { Column, RowDragging, Scrolling, Lookup, Sorting, Editing, Button } from 'devextreme-react/data-grid';
 import { CheckBox } from 'devextreme-react/check-box';
+import { Col } from 'devextreme-react/responsive-box';
+import 'devextreme/dist/css/dx.common.css';
+import 'devextreme/dist/css/dx.light.css';
+import notify from 'devextreme/ui/notify';
+
+import removeLogo from './cross.svg'
+import './style.css' 
+// import { Button } from 'devextreme-react/button';
 
 class Grid extends React.Component {
     constructor(props) {
@@ -43,6 +51,19 @@ class Grid extends React.Component {
         e.component.refresh();
     }
 
+    checkVisible(status) {
+        if (status === 2) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    onDeleteClick(e) {
+        const buttonText = e.component.option('text');
+        notify(`The button was clicked`);
+    }
+
     render() {
         return (
             <DataGrid
@@ -61,6 +82,7 @@ class Grid extends React.Component {
                 />
                 <Scrolling mode="virtual" />
                 <Sorting mode="none" />
+                
                 <Column
                     dataField="courseId"
                     dataType="string"
@@ -81,7 +103,6 @@ class Grid extends React.Component {
                     alignment='center'
                     width={80}
                     hidingPriority={2}
-                    
                 />
                 <Column
                     dataField="duration"
@@ -98,9 +119,25 @@ class Grid extends React.Component {
                     dataType="number"
                     visible={false}
                 />
+                <Column 
+                    type="buttons"
+                    caption="刪除"
+                    alignment="center"
+                    width={50}
+                    visible={this.checkVisible(this.props.status)}>
+                    <Button
+                        id="removeButton"
+                        width={120}
+                        // text="X"
+                        icon={removeLogo}
+                        cssClass="dx-icon-custom-style"
+                        onClick={this.onDeleteClick}
+                    />
+                </Column>
             </DataGrid>
         );
     }
 }
+
 
 export default Grid;
