@@ -1,5 +1,5 @@
 import React from "react";
-import "./modal.css";
+// import "./modal.css";
 import PropTypes from "prop-types";
 
 export default class Modal extends React.Component {

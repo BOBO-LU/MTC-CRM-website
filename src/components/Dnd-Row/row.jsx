@@ -10,7 +10,6 @@ import Snackbar from '../Snackbar/snackbar';
 import { PickerDate, PickerTime } from '../DatePicker/datePicker'
 import { Button } from 'devextreme-react/button';
 
-import add from "@date-io/date-fns";
 
 import Modal from "../../components/Modal";
 import { courseList } from './data'
@@ -35,8 +34,8 @@ class App extends React.Component {
         super(props);
         this.state = {
             endTime: null,
-            startTime: null,
-            key: 0,
+            renderkey: 0,
+            startTime: null
         };
     }
 
@@ -58,31 +57,30 @@ class App extends React.Component {
             }
         }, 0);
 
-        // console.log('state: ', this.state.startTime, this.state.endTime, this.state.key)
-        console.log("endtime: ", this.state.startTime);
-        console.log("duration type: ", this.state.startTime);
+        console.log('state (before): ', this.state.startTime, this.state.endTime, this.state.renderkey)
+        // console.log("endtime: ", this.state.startTime);
+        console.log("duration type: ", typeof(this.state.startTime));
         // var endTime = add(new this.state.startTime, {
         //     minutes: duration
         // })
+
         this.setState({
             endTime: duration,
-            key: Math.random(),
+            renderkey: Math.random(),
         });
-        console.log("endtime: ", this.state.endTime);
-    };
-
-    state = {
-        show: false,
-    };
-    showModal = (e) => {
-        this.setState({
-            show: !this.state.show,
-        });
+        
+        var format = 
+        console.log('state (after): ', this.state.startTime, this.state.endTime, this.state.renderkey)
     };
 
     render() {
         return (
             <div className="root">
+                <div>
+                    <img 
+                    width="200px"
+                    src="https://images.all-free-download.com/images/graphiclarge/microsoft_technology_center_68445.jpg"></img>
+                </div>
                 <div className="textfield">
                     <StyledTextField
                         id="standard-basic"
@@ -96,13 +94,11 @@ class App extends React.Component {
                     <PickerTime
                         label="START TIME"
                         startTime={this.state.startTime}
-                        handleTimeChange={(startTime) =>
-                            this.handleTimeChange(startTime)
-                        }
+                        onSelectedTime={(date)=>this.handleTimeChange(date)}
                     />
                     <StyledTextField
                         id="standard-read-only-input"
-                        key={this.state.key}
+                        key={this.state.renderkey}
                         label="END TIME"
                         defaultValue={this.state.endTime}
                         InputProps={{ readOnly: true }}
@@ -118,34 +114,6 @@ class App extends React.Component {
                         <Grid id={2} datasource={datasource.store()} status={2} displayCaption={"選擇主題"} calculateEndTime={(date) => this.calculateEndTime(date)}/>
                     </div>
                 </div>
-
-                {/* <div>
-                    <div>Want more customized course?</div>
-                    <button onClick={AddCourse}>Add more course</button>
-                </div> */}
-
-                <div className="App">
-                    <div>Want more customized course?</div>
-                    <button
-                        class="toggle-button"
-                        id="centered-toggle-button"
-                        onClick={(e) => {
-                            this.showModal(e);
-                        }}
-                    >
-                        {" "}
-                        Add course{" "}
-                    </button>
-
-                    <Modal onClose={this.showModal} show={this.state.show}>
-                        <label>主題: </label> <input type="text" />
-                        <br></br> <br></br>
-                        <label>講者: </label> <input type="text" />
-                        <br></br> <br></br>
-                        <label>時間(分): </label> <input type="text" />
-                    </Modal>
-                </div>
-
                 <Snackbar text="submit" />
             </div>
         );

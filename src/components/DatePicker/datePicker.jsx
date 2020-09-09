@@ -45,9 +45,12 @@ function PickerDate(props) {
 
 function PickerTime(props){
     const classes = useStyles();
-    const [selectedDate, setSelectedDate] = useState(props.startTime);
+    const [selectedTime, setSelectedTime] = useState(props.startTime);
 
-    
+    const handleTimeChange = (date) => {
+        setSelectedTime(date);
+        props.onSelectedTime(date);
+    };
 
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -57,9 +60,9 @@ function PickerTime(props){
                 className={classes.textField}
                 id="time-picker"
                 label={props.label}
-                value={selectedDate}
+                value={selectedTime}
                 format="hh:mm"
-                onChange={props.handleTimeChange}
+                onChange={handleTimeChange}
                 KeyboardButtonProps={{
                     'aria-label': 'change time',
             }}
