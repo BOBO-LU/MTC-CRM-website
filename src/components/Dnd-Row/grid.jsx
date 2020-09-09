@@ -12,6 +12,8 @@ import { red } from '@material-ui/core/colors';
 // import { Button } from 'devextreme-react/button';
 import alertDialog from '../AlertDialog/alertDialog'
 
+
+
 class Grid extends React.Component {
     constructor(props) {
         super(props);
@@ -31,15 +33,15 @@ class Grid extends React.Component {
         //     e.data.ID = data.ID;
         //     e.data.position = data.Position;
         // });
-        e.data.courseId = 30,
-        e.data.courseType = '自訂',
-        e.data.duration = '20',
-        e.data.durationType = 'min',
-        e.data.capacity = '20',
-        e.data.Status = '2',
-        e.data.Customize = true
+        e.data.courseId = 30;
+        e.data.courseType = '自訂';
+        e.data.duration = '20';
+        e.data.durationType = 'min';
+        e.data.capacity = '20';
+        e.data.Status = '2';
+        e.data.Customize = true;
 
-
+        this.props.calculateEndTime(0);
     }
 
     onAdd(e) {
@@ -54,7 +56,7 @@ class Grid extends React.Component {
         
         this.props.calculateEndTime(0);
 
-        e.component.refresh();
+        // e.component.refresh();
     }
 
     onReorder(e) {

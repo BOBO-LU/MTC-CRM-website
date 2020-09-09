@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: 'wrap',
     },
     textField: {
-        margin: '2%',
+        margin: '1%',
     },
   }));
 
@@ -57,6 +57,7 @@ function PickerTime(props){
             <KeyboardTimePicker
                 // disableToolbar
                 required
+                ampm={false}
                 className={classes.textField}
                 id="time-picker"
                 label={props.label}

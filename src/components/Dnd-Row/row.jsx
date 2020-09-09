@@ -10,13 +10,12 @@ import Snackbar from '../Snackbar/snackbar';
 import { PickerDate, PickerTime } from '../DatePicker/datePicker'
 import { Button } from 'devextreme-react/button';
 
+import DateFnsAdapter from "@date-io/date-fns";
 
 import Modal from "../../components/Modal";
 import { courseList } from './data'
 import './style.css' 
 // import { TimePicker } from '@material-ui/pickers';
-
-import "./style.css";
 
 const url = "https://js.devexpress.com/Demos/Mvc/api/DnDBetweenGrids";
 
@@ -40,13 +39,10 @@ class App extends React.Component {
     }
 
     handleTimeChange = (startTime) => {
-        this.setState({
-            startTime: startTime,
-        });
-    };
-
-    calculateEndTime = (date) => {
-        console.log("calculate: ", date);
+        console.log('start handleTimechange')
+        var add_minutes =  function (dt, minutes) {
+            return new Date(dt.getTime() + minutes*60000);
+        }
 
         let store = datasource.store()._array;
         let duration = store.reduce(function (accumulator, curruentValue) {
@@ -57,20 +53,70 @@ class App extends React.Component {
             }
         }, 0);
 
+        const newTime = add_minutes(startTime, duration);
+        var minutes = '';
+
+        if (newTime.getMinutes() < 10){
+            minutes = "0".concat(String(newTime.getMinutes()));
+        }else{
+            minutes = String(newTime.getMinutes())
+        }
+
+        
+        const endTime = String(newTime.getHours()).concat(":",minutes)
+        this.setState({
+            startTime: startTime,
+            endTime: endTime,
+            renderkey: Math.random(),
+        });
+
+        console.log('handle: ', startTime, endTime);
+    };
+
+    calculateEndTime = (date) => {
+        console.log("calculate: ", date);
+        
+        var add_minutes =  function (dt, minutes) {
+            return new Date(dt.getTime() + minutes*60000);
+        }
+        
+        if ( date === 0 && this.state.startTime === null){
+            return 0
+        }
+
+        let store = datasource.store()._array;
+        let duration = store.reduce(function (accumulator, curruentValue) {
+            if (curruentValue.Status == 2) {
+                return accumulator + parseInt(curruentValue.duration);
+            } else {
+                return accumulator;
+            }
+        }, 0);
+
+        
         console.log('state (before): ', this.state.startTime, this.state.endTime, this.state.renderkey)
-        // console.log("endtime: ", this.state.startTime);
-        console.log("duration type: ", typeof(this.state.startTime));
-        // var endTime = add(new this.state.startTime, {
-        //     minutes: duration
-        // })
+        
+        
+        
+        const newTime = add_minutes(this.state.startTime, duration);
+        var minutes = '';
+        console.log('minutes: ', newTime.getMinutes())
+        if (newTime.getMinutes() < 10){
+            minutes = "0".concat(String(newTime.getMinutes()));
+            
+        }else{
+            minutes = String(newTime.getMinutes())
+        }
+
+        const endTime = String(newTime.getHours()).concat(":",minutes)
 
         this.setState({
-            endTime: duration,
+            endTime: endTime,
             renderkey: Math.random(),
         });
         
-        var format = 
         console.log('state (after): ', this.state.startTime, this.state.endTime, this.state.renderkey)
+        
     };
 
     render() {
@@ -103,15 +149,19 @@ class App extends React.Component {
                         defaultValue={this.state.endTime}
                         InputProps={{ readOnly: true }}
                     />
+                    <StyledTextField
+                        id="standard-basic"
+                        label="LOCATION"
+                    />
                 </div>
                 <div className="tables">
                     <div className="column">
                         <Grid 
                         id={1} 
-                        datasource={datasource.store()} status={1} displayCaption={"主題名稱"} /> 
+                        datasource={datasource.store()} status={1} displayCaption={"主題"} /> 
                     </div>
                     <div className="column">
-                        <Grid id={2} datasource={datasource.store()} status={2} displayCaption={"選擇主題"} calculateEndTime={(date) => this.calculateEndTime(date)}/>
+                        <Grid id={2} datasource={datasource.store()} status={2} displayCaption={"主題"} calculateEndTime={(date) => this.calculateEndTime(date)}/>
                     </div>
                 </div>
                 <Snackbar text="submit" />
@@ -121,30 +171,9 @@ class App extends React.Component {
 }
 
 const _TextField = styled(TextField)({
-    margin: "2%",
+    margin: "1%",
 });
 
-// const addCourse = {
-//     courseId: 11,
-//     courseName: "This is test data",
-//     courseType: "技術",
-//     duration: "30",
-//     durationType: "min",
-//     capacity: "10",
-//     startTime: Date.now(),
-//     Status: 2,
-// };
-
-function AddCourse() {
-    const store = new ArrayStore({
-        // ...
-        onInserted: function (values, key) {
-            // Your code goes here
-        },
-    });
-
-    alert("success");
-}
 
 function StyledTextField(props) {
     return (

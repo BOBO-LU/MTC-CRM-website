@@ -20,7 +20,7 @@ function Snackbar(props) {
 
     const handleClickVariant = (variant) => () => {
         // variant could be success, error, warning, info, or default
-        enqueueSnackbar('Thanks for your submit!', { variant });
+        enqueueSnackbar('已成功送出郵件至管理員的信箱!', { variant });
     };
 
     return (
