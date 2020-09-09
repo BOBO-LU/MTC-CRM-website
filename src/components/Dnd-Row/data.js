@@ -6,8 +6,7 @@ export const courseList = [
         duration: '20',
         durationType: 'min',
         capacity: '30',
-        startTime: Date.now(),
-        speaker: 'bobo',
+        speaker: 'MTC TEAM',
         Status: 2,
         Customize: false
     },
@@ -18,7 +17,6 @@ export const courseList = [
         duration: '20',
         durationType: 'min',
         capacity: '30',
-        startTime: Date.now(),
         speaker: 'bobo',
         Status: 1,
         Customize: false
@@ -29,7 +27,6 @@ export const courseList = [
         duration: '30',
         durationType: 'min',
         capacity: '10',
-        startTime: Date.now(),
         speaker: 'bobo',
         Status:1,
         Customize: false
@@ -41,7 +38,6 @@ export const courseList = [
         duration: '30',
         durationType: 'min',
         capacity: '10',
-        startTime: Date.now(),
         speaker: 'bobo',
         Status:1,
         Customize: false
@@ -53,7 +49,6 @@ export const courseList = [
         duration: '10',
         durationType: 'min',
         capacity: '10',
-        startTime: Date.now(),
         speaker: 'bobo',
         Status:1,
         Customize: false
@@ -65,7 +60,6 @@ export const courseList = [
         duration: '90',
         durationType: 'min',
         capacity: '10',
-        startTime: Date.now(),
         speaker: 'bobo',
         Status:1,
         Customize: false
@@ -76,7 +70,6 @@ export const courseList = [
         duration: '30',
         durationType: 'min',
         capacity: '10',
-        startTime: Date.now(),
         speaker: 'bobo',
         Status:1,
         Customize: false
@@ -87,7 +80,6 @@ export const courseList = [
         duration: '50',
         durationType: 'min',
         capacity: '10',
-        startTime: Date.now(),
         speaker: 'bobo',
         Status:1,
         Customize: false
@@ -98,7 +90,6 @@ export const courseList = [
         duration: '30',
         durationType: 'min',
         capacity: '10',
-        startTime: Date.now(),
         speaker: 'bobo',
         Status:1,
         Customize: false
@@ -110,7 +101,6 @@ export const courseList = [
         duration: '30',
         durationType: 'min',
         capacity: '10',
-        startTime: Date.now(),
         speaker: 'bobo',
         Status:1,
         Customize: false
@@ -122,7 +112,6 @@ export const courseList = [
         duration: '30',
         durationType: 'min',
         capacity: '10',
-        startTime: Date.now(),
         speaker: 'bobo',
         Status:1,
         Customize: false
@@ -134,7 +123,6 @@ export const courseList = [
         duration: '30',
         durationType: 'min',
         capacity: '10',
-        startTime: Date.now(),
         speaker: 'bobo',
         Status:1,
         Customize: false
@@ -146,7 +134,6 @@ export const courseList = [
         duration: '20',
         durationType: 'min',
         capacity: '10',
-        startTime: Date.now(),
         speaker: 'bobo',
         Status:1,
         Customize: false
@@ -158,7 +145,6 @@ export const courseList = [
         duration: '30',
         durationType: 'min',
         capacity: '10',
-        startTime: Date.now(),
         speaker: 'bobo',
         Status:1,
         Customize: false
@@ -170,19 +156,7 @@ export const courseList = [
         duration: '30',
         durationType: 'min',
         capacity: '10',
-        startTime: Date.now(),
         speaker: 'bobo',
         Status:1,
         Customize: false
-    },{
-        courseId: 15,
-        courseName: 'test',
-        courseType: '技術',
-        duration: '30',
-        durationType: 'min',
-        capacity: '10',
-        startTime: Date.now(),
-        speaker: 'bobo',
-        Status:1,
-        Customize: true
     }]
