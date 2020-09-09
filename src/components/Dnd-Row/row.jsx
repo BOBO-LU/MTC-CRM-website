@@ -6,6 +6,8 @@ import { styled } from "@material-ui/core/styles";
 import Grid from './grid.jsx';
 import DataSource from 'devextreme/data/data_source';
 import ArrayStore from 'devextreme/data/array_store';
+import CustomStore from 'devextreme/data/custom_store';
+
 import Snackbar from '../Snackbar/snackbar';
 import { PickerDate, PickerTime } from '../DatePicker/datePicker'
 import { Button } from 'devextreme-react/button';
@@ -13,13 +15,15 @@ import { Button } from 'devextreme-react/button';
 import add from "@date-io/date-fns";
 
 import Modal from "../../components/Modal";
-import { courseList } from './data'
+import { courseListData } from './data'
 import './style.css' 
 // import { TimePicker } from '@material-ui/pickers';
 
 import "./style.css";
 
 const url = "https://js.devexpress.com/Demos/Mvc/api/DnDBetweenGrids";
+
+var courseList = courseListData
 
 const datasource = new DataSource({
     store: new ArrayStore({
@@ -28,7 +32,20 @@ const datasource = new DataSource({
         data: courseList
         
     })
+    // store: new CustomStore({
+    //     key: 'courseId',
+    //     data: courseList,
+    //     load: () => {
+    //         return courseList
+    //     },
+    //     update: (key, value) => {
+    //         let objIndex = courseList.findIndex(x => x.courseId === key);
+    //         courseList[objIndex].Status = value.values.Status;
+    //         return courseList
+    //     }
+    // })
 })
+
 
 class App extends React.Component {
     constructor(props) {
@@ -49,7 +66,12 @@ class App extends React.Component {
     calculateEndTime = (date) => {
         console.log("calculate: ", date);
 
-        let store = datasource.store()._array;
+        let store = datasource.store();
+        // let store;
+        datasource.store().load().done(function(result){
+            store = result
+        })
+
         let duration = store.reduce(function (accumulator, curruentValue) {
             if (curruentValue.Status == 2) {
                 return accumulator + parseInt(curruentValue.duration);

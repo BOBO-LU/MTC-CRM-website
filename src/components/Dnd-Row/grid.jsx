@@ -28,11 +28,14 @@ class Grid extends React.Component {
         var key = e.itemData.courseId,
             values = { Status: e.toData };
 
-        this.props.datasource.update(key, values).then(() => {
-            this.props.datasource.push([{
-                type: 'update', key: key, data: values
-            }]);
-        });
+        const store = this.props.datasource;
+
+        store.update(key, {values})
+        // this.props.datasource.update(key, values).then(() => {
+        //     this.props.datasource.push([{
+        //         type: 'update', key: key, data: values
+        //     }]);
+        // });
         
         this.props.calculateEndTime(0);
 
@@ -40,7 +43,7 @@ class Grid extends React.Component {
     }
 
     onReorder(e) {
-        let store = this.props.datasource._array
+        let store = this.props.datasource
         let visibleRows = e.component.getVisibleRows(),
             toIndex = store.indexOf(visibleRows[e.toIndex].data),
             fromIndex = store.indexOf(e.itemData);

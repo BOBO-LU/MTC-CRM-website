@@ -1,4 +1,4 @@
-export const courseList = [
+export const courseListData = [
     {
         courseId: 0,
         courseName: 'MTC導覽',
