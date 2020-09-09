@@ -28,14 +28,11 @@ class Grid extends React.Component {
         var key = e.itemData.courseId,
             values = { Status: e.toData };
 
-        const store = this.props.datasource;
-
-        store.update(key, {values})
-        // this.props.datasource.update(key, values).then(() => {
-        //     this.props.datasource.push([{
-        //         type: 'update', key: key, data: values
-        //     }]);
-        // });
+        this.props.datasource.update(key, values).then(() => {
+            this.props.datasource.push([{
+                type: 'update', key: key, data: values
+            }]);
+        });
         
         this.props.calculateEndTime(0);
 
@@ -43,7 +40,7 @@ class Grid extends React.Component {
     }
 
     onReorder(e) {
-        let store = this.props.datasource
+        let store = this.props.datasource._array
         let visibleRows = e.component.getVisibleRows(),
             toIndex = store.indexOf(visibleRows[e.toIndex].data),
             fromIndex = store.indexOf(e.itemData);
@@ -63,13 +60,39 @@ class Grid extends React.Component {
     }
 
     onDeleteClick(e) {
-        const buttonText = e.component.option('text');
-        notify(`The button was clicked`);
+        notify(`Delete button was clicked`);
+        var customize = e.row.data.Customize, key = e.row.data.courseId;
+
+        if (customize === true){
+            this.props.datasource.remove(key).done(() => {
+                this.refreshDataGrid();
+            })
+        } else {
+            var values = { Status: 1 };
+        
+            this.props.datasource.update(key, values).then(() => {
+                this.props.datasource.push([{
+                    type: 'update', key: key, data: values
+                }]);
+            });
+        }
+        
+    }
+
+    refreshDataGrid() {
+        this.dataGrid.instance.refresh()
+            .then(function() {
+                // ...
+            })
+            .catch(function(error) {
+                // ...
+            });
     }
 
     render() {
         return (
             <DataGrid
+                ref={ref => this.dataGrid = ref}
                 dataSource={this.dataSource}
                 height={520}
                 showBorders={true}
@@ -131,10 +154,9 @@ class Grid extends React.Component {
                     <Button
                         id="removeButton"
                         width={120}
-                        // text="X"
                         icon={removeLogo}
                         cssClass="dx-icon-custom-style"
-                        onClick={this.onDeleteClick}
+                        onClick={(e) => this.onDeleteClick(e)}
                     />
                 </Column>
             </DataGrid>

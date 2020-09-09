@@ -6,8 +6,6 @@ import { styled } from "@material-ui/core/styles";
 import Grid from './grid.jsx';
 import DataSource from 'devextreme/data/data_source';
 import ArrayStore from 'devextreme/data/array_store';
-import CustomStore from 'devextreme/data/custom_store';
-
 import Snackbar from '../Snackbar/snackbar';
 import { PickerDate, PickerTime } from '../DatePicker/datePicker'
 import { Button } from 'devextreme-react/button';
@@ -15,15 +13,13 @@ import { Button } from 'devextreme-react/button';
 import add from "@date-io/date-fns";
 
 import Modal from "../../components/Modal";
-import { courseListData } from './data'
+import { courseList } from './data'
 import './style.css' 
 // import { TimePicker } from '@material-ui/pickers';
 
 import "./style.css";
 
 const url = "https://js.devexpress.com/Demos/Mvc/api/DnDBetweenGrids";
-
-var courseList = courseListData
 
 const datasource = new DataSource({
     store: new ArrayStore({
@@ -32,20 +28,7 @@ const datasource = new DataSource({
         data: courseList
         
     })
-    // store: new CustomStore({
-    //     key: 'courseId',
-    //     data: courseList,
-    //     load: () => {
-    //         return courseList
-    //     },
-    //     update: (key, value) => {
-    //         let objIndex = courseList.findIndex(x => x.courseId === key);
-    //         courseList[objIndex].Status = value.values.Status;
-    //         return courseList
-    //     }
-    // })
 })
-
 
 class App extends React.Component {
     constructor(props) {
@@ -53,7 +36,7 @@ class App extends React.Component {
         this.state = {
             endTime: null,
             startTime: null,
-            key: 0,
+            renderkey: 0,
         };
     }
 
@@ -66,12 +49,7 @@ class App extends React.Component {
     calculateEndTime = (date) => {
         console.log("calculate: ", date);
 
-        let store = datasource.store();
-        // let store;
-        datasource.store().load().done(function(result){
-            store = result
-        })
-
+        let store = datasource.store()._array;
         let duration = store.reduce(function (accumulator, curruentValue) {
             if (curruentValue.Status == 2) {
                 return accumulator + parseInt(curruentValue.duration);
@@ -88,7 +66,7 @@ class App extends React.Component {
         // })
         this.setState({
             endTime: duration,
-            key: Math.random(),
+            renderkey: Math.random(),
         });
         console.log("endtime: ", this.state.endTime);
     };
@@ -160,11 +138,11 @@ class App extends React.Component {
                     </button>
 
                     <Modal onClose={this.showModal} show={this.state.show}>
-                        <label>主題: </label> <input type="text" />
+                        <label>主題: </label> <input id="course" type="text" />
                         <br></br> <br></br>
-                        <label>講者: </label> <input type="text" />
+                        <label>講者: </label> <input id="speaker" type="text" />
                         <br></br> <br></br>
-                        <label>時間(分): </label> <input type="text" />
+                        <label>時間(分): </label> <input id="duration" type="text" />
                     </Modal>
                 </div>
 

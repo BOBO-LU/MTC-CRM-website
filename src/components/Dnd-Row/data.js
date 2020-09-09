@@ -1,4 +1,4 @@
-export const courseListData = [
+export const courseList = [
     {
         courseId: 0,
         courseName: 'MTC導覽',
@@ -8,7 +8,8 @@ export const courseListData = [
         capacity: '30',
         startTime: Date.now(),
         speaker: 'bobo',
-        Status: 2
+        Status: 2,
+        Customize: false
     },
     {
         courseId: 1,
@@ -19,7 +20,8 @@ export const courseListData = [
         capacity: '30',
         startTime: Date.now(),
         speaker: 'bobo',
-        Status: 1
+        Status: 1,
+        Customize: false
     },{            
         courseId: 2,
         courseName: '從 Edge 到全球數據中心佈署：微軟的雲端戰略',
@@ -29,7 +31,8 @@ export const courseListData = [
         capacity: '10',
         startTime: Date.now(),
         speaker: 'bobo',
-        Status:1
+        Status:1,
+        Customize: false
     },
     {
         courseId: 3,
@@ -40,7 +43,8 @@ export const courseListData = [
         capacity: '10',
         startTime: Date.now(),
         speaker: 'bobo',
-        Status:1
+        Status:1,
+        Customize: false
     },
     {
         courseId: 4,
@@ -51,7 +55,8 @@ export const courseListData = [
         capacity: '10',
         startTime: Date.now(),
         speaker: 'bobo',
-        Status:1
+        Status:1,
+        Customize: false
     },
     {
         courseId: 5,
@@ -62,7 +67,8 @@ export const courseListData = [
         capacity: '10',
         startTime: Date.now(),
         speaker: 'bobo',
-        Status:1
+        Status:1,
+        Customize: false
     },{
         courseId: 6,
         courseName: '金融業數位轉型的旅程與實戰心法',
@@ -72,7 +78,8 @@ export const courseListData = [
         capacity: '10',
         startTime: Date.now(),
         speaker: 'bobo',
-        Status:1
+        Status:1,
+        Customize: false
     },{
         courseId: 7,
         courseName: '雲端時代的資訊安全架構指南',
@@ -82,7 +89,8 @@ export const courseListData = [
         capacity: '10',
         startTime: Date.now(),
         speaker: 'bobo',
-        Status:1
+        Status:1,
+        Customize: false
     },{
         courseId: 8,
         courseName: '微軟的人工智慧發展藍圖',
@@ -92,7 +100,8 @@ export const courseListData = [
         capacity: '10',
         startTime: Date.now(),
         speaker: 'bobo',
-        Status:1
+        Status:1,
+        Customize: false
     },
     {
         courseId: 9,
@@ -103,7 +112,8 @@ export const courseListData = [
         capacity: '10',
         startTime: Date.now(),
         speaker: 'bobo',
-        Status:1
+        Status:1,
+        Customize: false
     },
     {
         courseId: 10,
@@ -114,7 +124,8 @@ export const courseListData = [
         capacity: '10',
         startTime: Date.now(),
         speaker: 'bobo',
-        Status:1
+        Status:1,
+        Customize: false
     },
     {
         courseId: 11,
@@ -125,7 +136,8 @@ export const courseListData = [
         capacity: '10',
         startTime: Date.now(),
         speaker: 'bobo',
-        Status:1
+        Status:1,
+        Customize: false
     },	
     {
         courseId: 12,
@@ -136,7 +148,8 @@ export const courseListData = [
         capacity: '10',
         startTime: Date.now(),
         speaker: 'bobo',
-        Status:1
+        Status:1,
+        Customize: false
     },
     {
         courseId: 13,
@@ -147,7 +160,8 @@ export const courseListData = [
         capacity: '10',
         startTime: Date.now(),
         speaker: 'bobo',
-        Status:1
+        Status:1,
+        Customize: false
     },
     {
         courseId: 14,
@@ -158,5 +172,17 @@ export const courseListData = [
         capacity: '10',
         startTime: Date.now(),
         speaker: 'bobo',
-        Status:1
+        Status:1,
+        Customize: false
+    },{
+        courseId: 15,
+        courseName: 'test',
+        courseType: '技術',
+        duration: '30',
+        durationType: 'min',
+        capacity: '10',
+        startTime: Date.now(),
+        speaker: 'bobo',
+        Status:1,
+        Customize: true
     }]
