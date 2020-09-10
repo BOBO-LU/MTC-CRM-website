@@ -1,32 +1,38 @@
-import React, {useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import DateFnsUtils from '@date-io/date-fns';
-import {KeyboardDatePicker, MuiPickersUtilsProvider, KeyboardTimePicker} from '@material-ui/pickers';
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+    KeyboardDatePicker,
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+} from "@material-ui/pickers";
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        display: 'flex',
-        flexWrap: 'wrap',
+        display: "flex",
+        flexWrap: "wrap",
     },
     textField: {
-        margin: '1%',
+        margin: "1%",
     },
-  }));
+}));
 
 function PickerDate(props) {
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = useState(null);
 
     const handleDateChange = (date) => {
-      setSelectedDate(date);
+        setSelectedDate(date);
     };
 
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
                 required
-                disableToolbar
+                // disableToolbar
+                clearable
+                showTodayButton
                 className={classes.textField}
                 // variant="inline"
                 format="yyyy/MM/dd"
@@ -36,20 +42,21 @@ function PickerDate(props) {
                 value={selectedDate}
                 onChange={handleDateChange}
                 KeyboardButtonProps={{
-                    'aria-label': 'change date',
-            }}
+                    "aria-label": "change date",
+                }}
             />
         </MuiPickersUtilsProvider>
     );
 }
 
-function PickerTime(props){
+function PickerTime(props) {
     const classes = useStyles();
     const [selectedTime, setSelectedTime] = useState(props.startTime);
 
     const handleTimeChange = (date) => {
         setSelectedTime(date);
-        props.onSelectedTime(date);
+        console.log("datePicker: ", date);
+        props.onSelectedTime(date === null ? 0 : date);
     };
 
     return (
@@ -57,22 +64,21 @@ function PickerTime(props){
             <KeyboardTimePicker
                 // disableToolbar
                 required
+                // clearable
+                showTodayButton
                 ampm={false}
                 className={classes.textField}
                 id="time-picker"
                 label={props.label}
                 value={selectedTime}
-                format="hh:mm"
+                // format="hh:mm"
                 onChange={handleTimeChange}
                 KeyboardButtonProps={{
-                    'aria-label': 'change time',
-            }}
+                    "aria-label": "change time",
+                }}
             />
         </MuiPickersUtilsProvider>
     );
 }
 
-export{ 
-    PickerDate,
-    PickerTime
-};
+export { PickerDate, PickerTime };
