@@ -9,6 +9,8 @@ import DataGrid, {
     Button,
     Editing,
     Form,
+    FormItem,
+    Label,
 } from "devextreme-react/data-grid";
 import { CheckBox } from "devextreme-react/check-box";
 import { Col } from "devextreme-react/responsive-box";
@@ -21,6 +23,28 @@ import "./style.css";
 import { red } from "@material-ui/core/colors";
 // import { Button } from 'devextreme-react/button';
 import alertDialog from "../AlertDialog/alertDialog";
+
+function _uuid() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return (
+        s4() +
+        s4() +
+        "-" +
+        s4() +
+        "-" +
+        s4() +
+        "-" +
+        s4() +
+        "-" +
+        s4() +
+        s4() +
+        s4()
+    );
+}
 
 class Grid extends React.Component {
     constructor(props) {
@@ -41,14 +65,14 @@ class Grid extends React.Component {
         //     e.data.ID = data.ID;
         //     e.data.position = data.Position;
         // });
-        e.data.courseId = 30;
+        e.data.courseId = _uuid();
         e.data.courseType = "自訂";
         e.data.duration = "20";
         e.data.durationType = "min";
         e.data.capacity = "20";
         e.data.Status = "2";
         e.data.Customize = true;
-
+        e.data.notes = "如果要新增課程，需要自行邀請講師";
         this.props.calculateEndTime(0);
     }
 
@@ -67,8 +91,6 @@ class Grid extends React.Component {
         });
 
         this.props.calculateEndTime(0);
-
-        // e.component.refresh();
     }
 
     onReorder(e) {
@@ -108,6 +130,13 @@ class Grid extends React.Component {
         this.props.calculateEndTime(0);
     }
 
+    getRowIndex(cellData) {
+        // console.log(cellData);
+        var key = cellData.rowIndex;
+        // console.log(key);
+        return key + 1;
+    }
+
     checkStatus(status) {
         if (status === 2) {
             return true;
@@ -132,7 +161,7 @@ class Grid extends React.Component {
             <DataGrid
                 ref={(ref) => (this.dataGrid = ref)}
                 dataSource={this.dataSource}
-                height={this.props.status === 1 ? 520 : 580}
+                height={this.props.status === 1 ? 520 : 566}
                 showBorders={true}
                 filterValue={this.filterExpr}
                 noDataText=""
@@ -153,7 +182,7 @@ class Grid extends React.Component {
                     >
                         {/* <Position my="top" at="top" of={window} /> */}
                     </Popup>
-                    <Form>
+                    <Form colCount={1}>
                         <Item dataField="courseName" caption="主題" />
                         <Item dataField="duration" caption="時間(分" />
                         <Item
@@ -161,6 +190,18 @@ class Grid extends React.Component {
                             caption="講師 (需要自行邀請講師)"
                         />
                         {/* <Item dataField="備註" editorType="dxTextArea" /> */}
+                        <div>bobooboo</div>
+                        <Item
+                        // dataField="如果要新增課程，需要自行邀請講師"
+                        // caption="如果要新增課程，需要自行邀請講師"
+                        >
+                            <Label
+                                location="top"
+                                alignment="center"
+                                showColon={false}
+                                text="如果要新增課程，需要自行邀請講師"
+                            />
+                        </Item>
                     </Form>
                 </Editing>
 
@@ -181,6 +222,16 @@ class Grid extends React.Component {
                     alignment="center"
                     width={45}
                     hidingPriority={1}
+                    visible={this.checkStatus(!this.props.status)}
+                />
+                <Column
+                    dataType="string"
+                    caption="順序"
+                    alignment="center"
+                    width={45}
+                    visible={this.checkStatus(this.props.status)}
+                    // hidingPriority={1}
+                    cellRender={this.getRowIndex}
                 />
                 <Column
                     dataField="courseName"
@@ -192,7 +243,7 @@ class Grid extends React.Component {
                     dataType="string"
                     caption={"講師"}
                     alignment="center"
-                    width={80}
+                    width={120}
                     hidingPriority={2}
                 />
                 <Column

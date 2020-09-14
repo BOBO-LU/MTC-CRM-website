@@ -12,12 +12,10 @@ import { Button } from "devextreme-react/button";
 
 import DateFnsAdapter from "@date-io/date-fns";
 
-import Modal from "../../components/Modal";
 import { courseList } from "./data";
 import "./style.css";
-// import { TimePicker } from '@material-ui/pickers';
 
-const url = "https://js.devexpress.com/Demos/Mvc/api/DnDBetweenGrids";
+import { addMinutes, convertMinute } from "./utils";
 
 const datasource = new DataSource({
     store: new ArrayStore({
@@ -31,40 +29,44 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            endTime: null,
             renderkey: 0,
+            endTime: null,
             startTime: null,
+            engagementId: "",
+            requester: "",
+            location: "",
         };
     }
+    handleEngagementId = (value) => {
+        this.setState({
+            engagementId: value.target.value,
+            renderkey: Math.random(),
+        });
+        console.log("handel Engagement: ", this.state.engagementId);
+    };
+
+    handleRequester = (value) => {
+        this.setState({
+            requester: value.target.value,
+            renderkey: Math.random(),
+        });
+        console.log("handel Requester: ", this.state.requester);
+    };
+
+    handleLocation = (value) => {
+        this.setState({
+            location: value.target.value,
+            renderkey: Math.random(),
+        });
+    };
 
     handleTimeChange = (startTime) => {
-        console.log("start handleTimechange");
-        var add_minutes = function (dt, minutes) {
-            return new Date(dt.getTime() + minutes * 60000);
-        };
+        console.log("start handleTimechange: ", this.state.startTime);
 
         let store = datasource.store()._array;
-        let duration = store.reduce(function (accumulator, curruentValue) {
-            if (curruentValue.Status === 2) {
-                return accumulator + parseInt(curruentValue.duration);
-            } else {
-                return accumulator;
-            }
-        }, 0);
-        console.log(startTime, this.state.startTime);
-        if (startTime === 0 && this.state.startTime === null) {
-            return 0;
-        }
-        const newTime = add_minutes(startTime, duration);
-        var minutes = "";
 
-        if (newTime.getMinutes() < 10) {
-            minutes = "0".concat(String(newTime.getMinutes()));
-        } else {
-            minutes = String(newTime.getMinutes());
-        }
+        const endTime = addMinutes(startTime, store);
 
-        const endTime = String(newTime.getHours()).concat(":", minutes);
         this.setState({
             startTime: startTime,
             endTime: endTime,
@@ -77,13 +79,16 @@ class App extends React.Component {
     calculateEndTime = (date) => {
         console.log("calculate: ", date);
 
+        if (this.state.startTime === null) {
+            return 0;
+        }
         var add_minutes = function (dt, minutes) {
             return new Date(dt.getTime() + minutes * 60000);
         };
 
-        if (date === 0 && this.state.startTime === null) {
-            return 0;
-        }
+        // if (date === 0 && this.state.startTime === null) {
+        //     return 0;
+        // }
 
         let store = datasource.store()._array;
         let duration = store.reduce(function (accumulator, curruentValue) {
@@ -136,15 +141,18 @@ class App extends React.Component {
                 </div>
                 <div className="textfield">
                     <StyledTextField
-                        id="standard-basic"
+                        id="engagementId"
                         label="ENGAGEMENT ID"
+                        onText={(value) => this.handleEngagementId(value)}
                     />
                     <StyledTextField
-                        id="standard-basic"
+                        id="requester"
                         label="REQUESTER (ALIAS)"
+                        onText={(value) => this.handleRequester(value)}
                     />
                     <PickerDate label="REQUEST DATE" />
                     <PickerTime
+                        id="startTime"
                         label="START TIME"
                         startTime={this.state.startTime}
                         onSelectedTime={(date) => this.handleTimeChange(date)}
@@ -156,7 +164,14 @@ class App extends React.Component {
                         defaultValue={this.state.endTime}
                         InputProps={{ readOnly: true }}
                     />
-                    <StyledTextField id="standard-basic" label="LOCATION" />
+                    <StyledTextField
+                        id="location"
+                        label="LOCATION"
+                        onText={(value) => this.handleLocation(value)}
+                    />
+                </div>
+                <div style={{ padding: "2% 1% 0", "font-size": "20px" }}>
+                    MTC briefing coordinator : Vivian Lee / Karin Chuang
                 </div>
                 <div className="tables">
                     <div className="column">
@@ -179,7 +194,13 @@ class App extends React.Component {
                         />
                     </div>
                 </div>
-                <Snackbar text="submit" />
+                <Snackbar
+                    text="submit"
+                    startTime={this.state.startTime}
+                    engagementId={this.state.engagementId}
+                    requester={this.state.requester}
+                    location={this.state.location}
+                />
             </div>
         );
     }
@@ -197,6 +218,7 @@ function StyledTextField(props) {
             label={props.label}
             defaultValue={props.defaultValue}
             InputProps={props.InputProps}
+            onChange={props.onText}
         />
     );
 }
