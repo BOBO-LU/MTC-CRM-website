@@ -90,7 +90,10 @@ class Grid extends React.Component {
             ]);
         });
 
-        this.props.calculateEndTime(0);
+        if (this.checkStatus(e.toData)) {
+            console.log("calculateEndTime");
+            this.props.calculateEndTime(0);
+        }
     }
 
     onReorder(e) {
@@ -138,6 +141,9 @@ class Grid extends React.Component {
     }
 
     checkStatus(status) {
+        /** 如果是右邊(選擇課程的欄位)，則回傳true
+         *  @param {}
+         */
         if (status === 2) {
             return true;
         } else {
