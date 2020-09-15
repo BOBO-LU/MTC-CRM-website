@@ -1,29 +1,63 @@
-import React from 'react';
-import DataGrid, { Column, RowDragging, Scrolling, Popup, Sorting, Position, Button, Editing, Form } from 'devextreme-react/data-grid';
-import { CheckBox } from 'devextreme-react/check-box';
-import { Col } from 'devextreme-react/responsive-box';
-import 'devextreme/dist/css/dx.common.css';
-import 'devextreme/dist/css/dx.light.css';
-import notify from 'devextreme/ui/notify';
-import { Item } from 'devextreme-react/form';
-import removeLogo from './cross.svg'
-import './style.css' 
-import { red } from '@material-ui/core/colors';
+import React from "react";
+import DataGrid, {
+    Column,
+    RowDragging,
+    Scrolling,
+    Popup,
+    Sorting,
+    Position,
+    Button,
+    Editing,
+    Form,
+    FormItem,
+    Label,
+} from "devextreme-react/data-grid";
+import { CheckBox } from "devextreme-react/check-box";
+import { Col } from "devextreme-react/responsive-box";
+import "devextreme/dist/css/dx.common.css";
+import "devextreme/dist/css/dx.light.css";
+import notify from "devextreme/ui/notify";
+import { Item } from "devextreme-react/form";
+import removeLogo from "./cross.svg";
+import "./style.css";
+import { red } from "@material-ui/core/colors";
 // import { Button } from 'devextreme-react/button';
-import alertDialog from '../AlertDialog/alertDialog'
+import alertDialog from "../AlertDialog/alertDialog";
+
+function _uuid() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return (
+        s4() +
+        s4() +
+        "-" +
+        s4() +
+        "-" +
+        s4() +
+        "-" +
+        s4() +
+        "-" +
+        s4() +
+        s4() +
+        s4()
+    );
+}
 
 class Grid extends React.Component {
     constructor(props) {
         super(props);
 
-        this.filterExpr = ['Status', '=', this.props.status];
+        this.filterExpr = ["Status", "=", this.props.status];
         this.onAdd = this.onAdd.bind(this);
         this.onReorder = this.onReorder.bind(this);
 
         this.dataSource = {
             store: this.props.datasource,
-            reshapeOnPush: true
-        }
+            reshapeOnPush: true,
+        };
     }
 
     onInitNewRow(e) {
@@ -31,15 +65,15 @@ class Grid extends React.Component {
         //     e.data.ID = data.ID;
         //     e.data.position = data.Position;
         // });
-        e.data.courseId = 30,
-        e.data.courseType = '自訂',
-        e.data.duration = '20',
-        e.data.durationType = 'min',
-        e.data.capacity = '20',
-        e.data.Status = '2',
-        e.data.Customize = true
-
-
+        e.data.courseId = _uuid();
+        e.data.courseType = "自訂";
+        e.data.duration = "20";
+        e.data.durationType = "min";
+        e.data.capacity = "20";
+        e.data.Status = "2";
+        e.data.Customize = true;
+        e.data.notes = "如果要新增課程，需要自行邀請講師";
+        this.props.calculateEndTime(0);
     }
 
     onAdd(e) {
@@ -47,18 +81,23 @@ class Grid extends React.Component {
             values = { Status: e.toData };
 
         this.props.datasource.update(key, values).then(() => {
-            this.props.datasource.push([{
-                type: 'update', key: key, data: values
-            }]);
+            this.props.datasource.push([
+                {
+                    type: "update",
+                    key: key,
+                    data: values,
+                },
+            ]);
         });
-        
-        this.props.calculateEndTime(0);
 
-        e.component.refresh();
+        if (this.checkStatus(e.toData)) {
+            console.log("calculateEndTime");
+            this.props.calculateEndTime(0);
+        }
     }
 
     onReorder(e) {
-        let store = this.props.datasource._array
+        let store = this.props.datasource._array;
         let visibleRows = e.component.getVisibleRows(),
             toIndex = store.indexOf(visibleRows[e.toIndex].data),
             fromIndex = store.indexOf(e.itemData);
@@ -70,39 +109,55 @@ class Grid extends React.Component {
     }
 
     onDeleteClick(e) {
-        notify(`Delete button was clicked`);
-        var customize = e.row.data.Customize, key = e.row.data.courseId;
+        notify(`已成功刪除課程`);
+        var customize = e.row.data.Customize,
+            key = e.row.data.courseId;
 
-        if (customize === true){
+        if (customize === true) {
             this.props.datasource.remove(key).done(() => {
                 this.refreshDataGrid();
-            })
+            });
         } else {
             var values = { Status: 1 };
-        
+
             this.props.datasource.update(key, values).then(() => {
-                this.props.datasource.push([{
-                    type: 'update', key: key, data: values
-                }]);
+                this.props.datasource.push([
+                    {
+                        type: "update",
+                        key: key,
+                        data: values,
+                    },
+                ]);
             });
         }
-        
+        this.props.calculateEndTime(0);
     }
-    
+
+    getRowIndex(cellData) {
+        // console.log(cellData);
+        var key = cellData.rowIndex;
+        // console.log(key);
+        return key + 1;
+    }
+
     checkStatus(status) {
+        /** 如果是右邊(選擇課程的欄位)，則回傳true
+         *  @param {}
+         */
         if (status === 2) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
     refreshDataGrid() {
-        this.dataGrid.instance.refresh()
-            .then(function() {
+        this.dataGrid.instance
+            .refresh()
+            .then(function () {
                 // ...
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 // ...
             });
     }
@@ -110,48 +165,80 @@ class Grid extends React.Component {
     render() {
         return (
             <DataGrid
-                ref={ref => this.dataGrid = ref}
+                ref={(ref) => (this.dataGrid = ref)}
                 dataSource={this.dataSource}
-                height={520}
+                height={this.props.status === 1 ? 520 : 566}
                 showBorders={true}
                 filterValue={this.filterExpr}
                 noDataText=""
-                onInitNewRow={(e)=>this.onInitNewRow(e)}
-            >   
+                onInitNewRow={(e) => this.onInitNewRow(e)}
+                onRowInserted={() => this.props.calculateEndTime()}
+            >
                 <Editing
                     // allowUpdating={true}
                     allowAdding={this.checkStatus(this.props.status)} //改變toolbar https://js.devexpress.com/Demos/WidgetsGallery/Demo/DataGrid/ToolbarCustomization/React/Light/
                     // allowDeleting={true}
-                    mode="popup" >
-                    <Popup title="新增自訂主題" showTitle={true} width={700} height={525}>
+                    mode="popup"
+                >
+                    <Popup
+                        title="新增自訂主題"
+                        showTitle={true}
+                        width={700}
+                        height={525}
+                    >
                         {/* <Position my="top" at="top" of={window} /> */}
                     </Popup>
-                    <Form>
-                        <Item dataField="courseName" caption="主題"/>
-                        <Item dataField="duration" caption="時間(分"/>
-                        <Item dataField="speaker" caption="講師 (需要自行邀請講師)"/>
+                    <Form colCount={1}>
+                        <Item dataField="courseName" caption="主題" />
+                        <Item dataField="duration" caption="時間(分" />
+                        <Item
+                            dataField="speaker"
+                            caption="講師 (需要自行邀請講師)"
+                        />
                         {/* <Item dataField="備註" editorType="dxTextArea" /> */}
+                        <div>bobooboo</div>
+                        <Item
+                        // dataField="如果要新增課程，需要自行邀請講師"
+                        // caption="如果要新增課程，需要自行邀請講師"
+                        >
+                            <Label
+                                location="top"
+                                alignment="center"
+                                showColon={false}
+                                text="如果要新增課程，需要自行邀請講師"
+                            />
+                        </Item>
                     </Form>
                 </Editing>
-                
+
                 <RowDragging
                     allowReordering={true}
                     data={this.props.status}
-                    group="tasksGroup"    
+                    group="tasksGroup"
                     onReorder={this.onReorder}
                     onAdd={this.onAdd}
                 />
                 <Scrolling mode="virtual" />
                 <Sorting mode="none" />
-                
+
                 <Column
                     dataField="courseId"
                     dataType="string"
                     caption="編號"
-                    alignment='center'
+                    alignment="center"
                     width={45}
                     hidingPriority={1}
-                /> 
+                    visible={this.checkStatus(!this.props.status)}
+                />
+                <Column
+                    dataType="string"
+                    caption="順序"
+                    alignment="center"
+                    width={45}
+                    visible={this.checkStatus(this.props.status)}
+                    // hidingPriority={1}
+                    cellRender={this.getRowIndex}
+                />
                 <Column
                     dataField="courseName"
                     dataType="string"
@@ -161,8 +248,8 @@ class Grid extends React.Component {
                     dataField="speaker"
                     dataType="string"
                     caption={"講師"}
-                    alignment='center'
-                    width={80}
+                    alignment="center"
+                    width={120}
                     hidingPriority={2}
                 />
                 <Column
@@ -170,22 +257,18 @@ class Grid extends React.Component {
                     dataType="number"
                     width={70}
                     visible={true}
-                    caption='時間(分)'
-                    alignment='center'
+                    caption="時間(分)"
+                    alignment="center"
                     hidingPriority={3}
-                >
-                </Column>
+                ></Column>
+                <Column dataField="Status" dataType="number" visible={false} />
                 <Column
-                    dataField="Status"
-                    dataType="number"
-                    visible={false}
-                />
-                <Column 
                     type="buttons"
                     caption="刪除"
                     alignment="center"
                     width={50}
-                    visible={this.checkStatus(this.props.status)}>
+                    visible={this.checkStatus(this.props.status)}
+                >
                     <Button
                         id="removeButton"
                         width={120}
@@ -198,6 +281,5 @@ class Grid extends React.Component {
         );
     }
 }
-
 
 export default Grid;
