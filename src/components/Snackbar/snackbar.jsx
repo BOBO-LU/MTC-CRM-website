@@ -15,9 +15,18 @@ const useStyles = makeStyles((theme) => ({
 function Snackbar(props) {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
-
+    const tobackend = () => {
+        fetch("http://127.0.0.1:5000/")
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+            })
+            .catch(console.log);
+    };
     const handleClickVariant = (variant) => () => {
         // variant could be success, error, warning, info, or default
+
+        tobackend();
 
         var checkNull = () => {
             if (
