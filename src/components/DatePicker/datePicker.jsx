@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
     },
     textField: {
         margin: "1%",
+        width: "13%",
+        "font-size": "3px",
     },
 }));
 
@@ -36,7 +38,7 @@ function PickerDate(props) {
                 className={classes.textField}
                 // variant="inline"
                 format="yyyy/MM/dd"
-                // margin="normal"
+                margin="normal"
                 id="date-picker-inline"
                 label={props.label}
                 value={selectedDate}

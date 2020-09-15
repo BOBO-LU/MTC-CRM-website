@@ -1,21 +1,28 @@
 import React from "react";
 
 import TextField from "@material-ui/core/TextField";
-import { styled } from "@material-ui/core/styles";
+import { styled, withStyles } from "@material-ui/core/styles";
 
 import Grid from "./grid.jsx";
 import DataSource from "devextreme/data/data_source";
 import ArrayStore from "devextreme/data/array_store";
 import Snackbar from "../Snackbar/snackbar";
 import { PickerDate, PickerTime } from "../DatePicker/datePicker";
-import { Button } from "devextreme-react/button";
 
 import DateFnsAdapter from "@date-io/date-fns";
 
 import { courseList } from "./data";
 import "./style.css";
 
-import { addMinutes, convertMinute } from "./utils";
+import { addMinutes } from "./utils";
+
+const styles = (theme) => ({
+    root: {
+        margin: "1%",
+        width: "14%",
+        fontSize: 3,
+    },
+});
 
 const datasource = new DataSource({
     store: new ArrayStore({
@@ -131,6 +138,7 @@ class App extends React.Component {
     };
 
     render() {
+        const { classes } = this.props;
         return (
             <div className="root">
                 <div>
@@ -140,12 +148,13 @@ class App extends React.Component {
                     ></img>
                 </div>
                 <div className="textfield">
-                    <StyledTextField
+                    <TextField
+                        className={classes.root}
                         id="engagementId"
                         label="ENGAGEMENT ID"
                         onText={(value) => this.handleEngagementId(value)}
                     />
-                    <StyledTextField
+                    <TextField
                         id="requester"
                         label="REQUESTER (ALIAS)"
                         onText={(value) => this.handleRequester(value)}
@@ -157,14 +166,14 @@ class App extends React.Component {
                         startTime={this.state.startTime}
                         onSelectedTime={(date) => this.handleTimeChange(date)}
                     />
-                    <StyledTextField
+                    <TextField
                         id="standard-read-only-input"
                         key={this.state.renderkey}
                         label="END TIME"
                         defaultValue={this.state.endTime}
                         InputProps={{ readOnly: true }}
                     />
-                    <StyledTextField
+                    <TextField
                         id="location"
                         label="LOCATION"
                         onText={(value) => this.handleLocation(value)}
@@ -206,21 +215,4 @@ class App extends React.Component {
     }
 }
 
-const _TextField = styled(TextField)({
-    margin: "1%",
-});
-
-function StyledTextField(props) {
-    return (
-        <_TextField
-            required
-            id={props.id}
-            label={props.label}
-            defaultValue={props.defaultValue}
-            InputProps={props.InputProps}
-            onChange={props.onText}
-        />
-    );
-}
-
-export default App;
+export default withStyles(styles, { withTheme: true })(App);
