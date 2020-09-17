@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { SnackbarProvider, useSnackbar } from "notistack";
@@ -15,7 +16,8 @@ const useStyles = makeStyles((theme) => ({
 function Snackbar(props) {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
-    const tobackend = () => {
+    const tobackendget = () => {
+        console.log("start tobackendget");
         fetch("http://127.0.0.1:5000/")
             .then((res) => res.json())
             .then((data) => {
@@ -23,17 +25,47 @@ function Snackbar(props) {
             })
             .catch(console.log);
     };
+    const tobackendpost = (
+        startTime,
+        date,
+        engagementId,
+        requester,
+        location,
+        courselist
+    ) => {
+        console.log("start tobackendpost");
+
+        axios
+            .post("http://127.0.0.1:5000/courselist", {
+                method: "post",
+                data: {
+                    startTime: startTime,
+                    date: date,
+                    engagementId: engagementId,
+                    requester: requester,
+                    location: location,
+                    courselist: courselist,
+                },
+            })
+            .then((response) => {
+                console.log("post res: ", response);
+                console.log(response.data);
+                console.log(response.status);
+                console.log(response.statusText);
+                console.log(response.headers);
+                console.log(response.config);
+            });
+    };
     const handleClickVariant = (variant) => () => {
         // variant could be success, error, warning, info, or default
-
-        tobackend();
 
         var checkNull = () => {
             if (
                 props.startTime == null ||
                 props.engagementId === "" ||
                 props.requester === "" ||
-                props.location === ""
+                props.location === "" ||
+                props.date === ""
             ) {
                 return true;
             } else {
@@ -43,21 +75,34 @@ function Snackbar(props) {
 
         var check = checkNull();
         if (check) {
-            console.log("checkNUll error");
+            console.log("checkNUll True, something is null");
             console.log(
                 props.startTime,
+                props.date,
                 props.engagementId,
                 props.requester,
-                props.location
+                props.location,
+                props.courseList
             );
+            tobackendget();
             enqueueSnackbar("請輸入所有資料", { variant: "error" });
         } else {
-            console.log("checknull success");
+            console.log("checknull False, submit success");
             console.log(
                 props.startTime,
+                props.date,
                 props.engagementId,
                 props.requester,
-                props.location
+                props.location,
+                props.courseList
+            );
+            tobackendpost(
+                props.startTime,
+                props.date,
+                props.engagementId,
+                props.requester,
+                props.location,
+                props.courseList
             );
             enqueueSnackbar(
                 "已將您的初版Agenda送給MTC briefing coordinator, 後續會在與您確認最終版Agenda",
@@ -85,9 +130,11 @@ export default function IntegrationNotistack(props) {
             <Snackbar
                 text={props.text}
                 startTime={props.startTime}
+                date={props.date}
                 engagementId={props.engagementId}
                 requester={props.requester}
                 location={props.location}
+                courseList={props.courseList}
             />
         </SnackbarProvider>
     );

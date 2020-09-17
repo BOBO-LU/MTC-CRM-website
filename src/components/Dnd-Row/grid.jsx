@@ -70,15 +70,20 @@ class Grid extends React.Component {
         e.data.duration = "20";
         e.data.durationType = "min";
         e.data.capacity = "20";
-        e.data.Status = "2";
+        e.data.Status = 2;
         e.data.Customize = true;
         e.data.notes = "如果要新增課程，需要自行邀請講師";
         this.props.calculateEndTime(0);
+        console.log("*** Init: ", e.data);
     }
 
+    onRowInserted(e) {
+        this.props.calculateEndTime();
+    }
     onAdd(e) {
+        console.log(e);
         var key = e.itemData.courseId,
-            values = { Status: e.toData };
+            values = { Status: e.toData, order: e.toIndex + 1 };
 
         this.props.datasource.update(key, values).then(() => {
             this.props.datasource.push([
@@ -172,7 +177,9 @@ class Grid extends React.Component {
                 filterValue={this.filterExpr}
                 noDataText=""
                 onInitNewRow={(e) => this.onInitNewRow(e)}
-                onRowInserted={() => this.props.calculateEndTime()}
+                onRowInserted={(e) => {
+                    this.onRowInserted(e);
+                }}
             >
                 <Editing
                     // allowUpdating={true}
@@ -196,7 +203,6 @@ class Grid extends React.Component {
                             caption="講師 (需要自行邀請講師)"
                         />
                         {/* <Item dataField="備註" editorType="dxTextArea" /> */}
-                        <div>bobooboo</div>
                         <Item
                         // dataField="如果要新增課程，需要自行邀請講師"
                         // caption="如果要新增課程，需要自行邀請講師"

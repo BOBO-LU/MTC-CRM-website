@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 function PickerDate(props) {
     const classes = useStyles();
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(props.date);
 
     const handleDateChange = (date) => {
         setSelectedDate(date);

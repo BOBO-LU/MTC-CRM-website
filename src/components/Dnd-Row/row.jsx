@@ -8,7 +8,7 @@ import DataSource from "devextreme/data/data_source";
 import ArrayStore from "devextreme/data/array_store";
 import Snackbar from "../Snackbar/snackbar";
 import { PickerDate, PickerTime } from "../DatePicker/datePicker";
-
+import Query from "devextreme/data/query";
 import DateFnsAdapter from "@date-io/date-fns";
 
 import { courseList } from "./data";
@@ -39,6 +39,7 @@ class App extends React.Component {
             renderkey: 0,
             endTime: null,
             startTime: null,
+            date: null,
             engagementId: "",
             requester: "",
             location: "",
@@ -67,6 +68,13 @@ class App extends React.Component {
         });
     };
 
+    handleDateChange = (date) => {
+        this.setState({
+            date: date,
+            renderkey: Math.random(),
+        });
+    };
+
     handleTimeChange = (startTime) => {
         console.log("start handleTimechange: ", this.state.startTime);
 
@@ -81,6 +89,7 @@ class App extends React.Component {
         });
 
         console.log("handle: ", startTime, endTime);
+        console.log(this.statusFilter(datasource.store()));
     };
 
     calculateEndTime = (date) => {
@@ -137,6 +146,18 @@ class App extends React.Component {
         );
     };
 
+    statusFilter = (store) => {
+        var rt;
+        var ds = new DataSource({
+            store: store,
+            filter: ["Status", "=", 2],
+        });
+        ds.load().done(function (result) {
+            rt = result;
+        });
+        return rt;
+    };
+
     render() {
         const { classes } = this.props;
         return (
@@ -152,14 +173,19 @@ class App extends React.Component {
                         className={classes.root}
                         id="engagementId"
                         label="ENGAGEMENT ID"
-                        onText={(value) => this.handleEngagementId(value)}
+                        onChange={(value) => this.handleEngagementId(value)}
                     />
                     <TextField
                         id="requester"
                         label="REQUESTER (ALIAS)"
-                        onText={(value) => this.handleRequester(value)}
+                        onChange={(value) => this.handleRequester(value)}
                     />
-                    <PickerDate label="REQUEST DATE" />
+                    <PickerDate
+                        id="date"
+                        label="REQUEST DATE"
+                        date={this.state.date}
+                        onSelectedTime={(date) => this.handleDateChange(date)}
+                    />
                     <PickerTime
                         id="startTime"
                         label="START TIME"
@@ -176,7 +202,7 @@ class App extends React.Component {
                     <TextField
                         id="location"
                         label="LOCATION"
-                        onText={(value) => this.handleLocation(value)}
+                        onChange={(value) => this.handleLocation(value)}
                     />
                 </div>
                 <div style={{ padding: "2% 1% 0", "font-size": "20px" }}>
@@ -209,6 +235,8 @@ class App extends React.Component {
                     engagementId={this.state.engagementId}
                     requester={this.state.requester}
                     location={this.state.location}
+                    date={this.state.date}
+                    courseList={this.statusFilter(datasource.store())}
                 />
             </div>
         );
