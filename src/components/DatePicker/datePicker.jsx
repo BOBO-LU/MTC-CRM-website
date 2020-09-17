@@ -26,6 +26,7 @@ function PickerDate(props) {
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
+        props.onSelectedDate(date === null ? 0 : date);
     };
 
     return (

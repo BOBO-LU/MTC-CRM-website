@@ -36,7 +36,7 @@ function Snackbar(props) {
         console.log("start tobackendpost");
 
         axios
-            .post("http://127.0.0.1:5000/courselist", {
+            .post("https://ebappbackend.azurewebsites.net/courselist", {
                 method: "post",
                 data: {
                     startTime: startTime,

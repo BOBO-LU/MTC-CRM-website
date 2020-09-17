@@ -184,7 +184,7 @@ class App extends React.Component {
                         id="date"
                         label="REQUEST DATE"
                         date={this.state.date}
-                        onSelectedTime={(date) => this.handleDateChange(date)}
+                        onSelectedDate={(date) => this.handleDateChange(date)}
                     />
                     <PickerTime
                         id="startTime"
