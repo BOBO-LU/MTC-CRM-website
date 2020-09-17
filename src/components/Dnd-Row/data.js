@@ -9,6 +9,7 @@ export const courseList = [
         speaker: "MTC Team",
         Status: 2,
         Customize: false,
+        order: 1,
     },
     {
         courseId: 1,
@@ -20,6 +21,7 @@ export const courseList = [
         speaker: "Peter Hu",
         Status: 1,
         Customize: false,
+        order: 1,
     },
     {
         courseId: 2,
@@ -31,6 +33,7 @@ export const courseList = [
         speaker: "Peter Hu",
         Status: 1,
         Customize: false,
+        order: 1,
     },
     {
         courseId: 3,
@@ -42,6 +45,7 @@ export const courseList = [
         speaker: "Peter Hu",
         Status: 1,
         Customize: false,
+        order: 1,
     },
     {
         courseId: 4,
@@ -53,6 +57,7 @@ export const courseList = [
         speaker: "Hannah Wang",
         Status: 1,
         Customize: false,
+        order: 1,
     },
     {
         courseId: 5,
@@ -64,6 +69,7 @@ export const courseList = [
         speaker: "Linda Wang",
         Status: 1,
         Customize: false,
+        order: 1,
     },
     {
         courseId: 6,
@@ -75,6 +81,7 @@ export const courseList = [
         speaker: "Jimmy Liu",
         Status: 1,
         Customize: false,
+        order: 1,
     },
     {
         courseId: 7,
@@ -86,6 +93,7 @@ export const courseList = [
         speaker: "White Pai",
         Status: 1,
         Customize: false,
+        order: 1,
     },
     {
         courseId: 8,
@@ -97,6 +105,7 @@ export const courseList = [
         speaker: "Ethan Huang",
         Status: 1,
         Customize: false,
+        order: 1,
     },
     {
         courseId: 9,
@@ -108,6 +117,7 @@ export const courseList = [
         speaker: "Jason Lin",
         Status: 1,
         Customize: false,
+        order: 1,
     },
     {
         courseId: 10,
@@ -119,6 +129,7 @@ export const courseList = [
         speaker: "James Wu",
         Status: 1,
         Customize: false,
+        order: 1,
     },
     {
         courseId: 11,
@@ -130,6 +141,7 @@ export const courseList = [
         speaker: "Huier Huang",
         Status: 1,
         Customize: false,
+        order: 1,
     },
     {
         courseId: 12,
@@ -142,6 +154,7 @@ export const courseList = [
         speaker: "Ethan Huang",
         Status: 1,
         Customize: false,
+        order: 1,
     },
     {
         courseId: 13,
@@ -153,6 +166,7 @@ export const courseList = [
         speaker: "Ken Hung",
         Status: 1,
         Customize: false,
+        order: 1,
     },
     {
         courseId: 14,
@@ -164,5 +178,6 @@ export const courseList = [
         speaker: "Joe Lin",
         Status: 1,
         Customize: false,
+        order: 1,
     },
 ];
