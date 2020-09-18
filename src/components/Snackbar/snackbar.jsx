@@ -17,8 +17,8 @@ function Snackbar(props) {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
     const tobackendget = () => {
-        console.log("start tobackendget");
-        fetch("https://ebappbackend.azurewebsites.net/")
+        console.log("start tobackendget(snackbar)");
+        fetch("https://ebbackend.azurewebsites.net")
             .then((res) => res.json())
             .then((data) => {
                 console.log("fetch data: ", data);
@@ -36,7 +36,7 @@ function Snackbar(props) {
         console.log("start tobackendpost");
 
         axios
-            .post("https://ebappbackend.azurewebsites.net/", {
+            .post("https://ebbackend.azurewebsites.net", {
                 method: "post",
                 data: {
                     startTime: startTime,
