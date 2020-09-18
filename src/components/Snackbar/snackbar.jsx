@@ -33,7 +33,7 @@ function Snackbar(props) {
         location,
         courselist
     ) => {
-        console.log("start tobackendpost");
+        console.log("start tobackendpost()");
 
         axios
             .post("https://ebappbackend.azurewebsites.net", {
