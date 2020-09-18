@@ -176,6 +176,7 @@ class App extends React.Component {
                         onChange={(value) => this.handleEngagementId(value)}
                     />
                     <TextField
+                        className={classes.root}
                         id="requester"
                         label="REQUESTER (ALIAS)"
                         onChange={(value) => this.handleRequester(value)}
@@ -193,6 +194,7 @@ class App extends React.Component {
                         onSelectedTime={(date) => this.handleTimeChange(date)}
                     />
                     <TextField
+                        className={classes.root}
                         id="standard-read-only-input"
                         key={this.state.renderkey}
                         label="END TIME"
@@ -200,6 +202,7 @@ class App extends React.Component {
                         InputProps={{ readOnly: true }}
                     />
                     <TextField
+                        className={classes.root}
                         id="location"
                         label="LOCATION"
                         onChange={(value) => this.handleLocation(value)}

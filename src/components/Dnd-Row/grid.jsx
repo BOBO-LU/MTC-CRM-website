@@ -114,7 +114,7 @@ class Grid extends React.Component {
     }
 
     onDeleteClick(e) {
-        notify(`已成功刪除課程`, success);
+        notify(`已成功刪除課程`, "success");
         var customize = e.row.data.Customize,
             key = e.row.data.courseId;
 
@@ -242,7 +242,7 @@ class Grid extends React.Component {
                     alignment="center"
                     width={45}
                     visible={this.checkStatus(this.props.status)}
-                    // hidingPriority={1}
+                    hidingPriority={1}
                     cellRender={this.getRowIndex}
                 />
                 <Column
@@ -256,6 +256,7 @@ class Grid extends React.Component {
                     caption={"講師"}
                     alignment="center"
                     width={120}
+                    visible={false}
                     hidingPriority={2}
                 />
                 <Column
