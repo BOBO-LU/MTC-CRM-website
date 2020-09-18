@@ -18,12 +18,12 @@ function Snackbar(props) {
     const { enqueueSnackbar } = useSnackbar();
     const tobackendget = () => {
         console.log("start tobackendget");
-        fetch("http://127.0.0.1:5000/")
+        fetch("https://ebappbackend.azurewebsites.net/")
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
+                console.log("fetch data: ", data);
             })
-            .catch(console.log);
+            .catch(console.log("error catch by fetch in snackbar.jsx"));
     };
     const tobackendpost = (
         startTime,
@@ -36,7 +36,7 @@ function Snackbar(props) {
         console.log("start tobackendpost");
 
         axios
-            .post("https://ebappbackend.azurewebsites.net/courselist", {
+            .post("https://ebappbackend.azurewebsites.net/", {
                 method: "post",
                 data: {
                     startTime: startTime,

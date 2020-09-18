@@ -114,7 +114,7 @@ class Grid extends React.Component {
     }
 
     onDeleteClick(e) {
-        notify(`已成功刪除課程`);
+        notify(`已成功刪除課程`, success);
         var customize = e.row.data.Customize,
             key = e.row.data.courseId;
 
