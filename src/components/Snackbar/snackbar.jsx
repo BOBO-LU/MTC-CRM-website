@@ -75,7 +75,7 @@ function Snackbar(props) {
 
         var check = checkNull();
         if (check) {
-            console.log("checkNUll True, something is null");
+            console.log("checkNUll True, something is null(ebapp)");
             console.log(
                 props.startTime,
                 props.date,
