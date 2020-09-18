@@ -25,7 +25,36 @@ function Snackbar(props) {
             })
             .catch(console.log("error catch by fetch in snackbar.jsx"));
     };
+
     const tobackendpost = (
+        startTime,
+        date,
+        engagementId,
+        requester,
+        location,
+        courselist
+    ) => {
+        fetch("https://ebbackend.azurewebsites.net", {
+            headers: { "Content-Type": "application/json" },
+            method: "POST",
+            body: JSON.stringify({
+                data: {
+                    startTime: startTime,
+                    date: date,
+                    engagementId: engagementId,
+                    requester: requester,
+                    location: location,
+                    courselist: courselist,
+                },
+            }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log("fetch data: ", data);
+            })
+            .catch(console.log("error catch by post in snackbar.jsx"));
+    };
+    const tobackendpostbyaxios = (
         startTime,
         date,
         engagementId,
