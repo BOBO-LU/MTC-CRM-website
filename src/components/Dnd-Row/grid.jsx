@@ -19,6 +19,7 @@ import "devextreme/dist/css/dx.light.css";
 import notify from "devextreme/ui/notify";
 import { Item } from "devextreme-react/form";
 import removeLogo from "./cross.svg";
+import addLogo from "./add.svg";
 import "./style.css";
 import { red } from "@material-ui/core/colors";
 // import { Button } from 'devextreme-react/button';
@@ -82,9 +83,13 @@ class Grid extends React.Component {
     }
     onAdd(e) {
         console.log(e);
+
         var key = e.itemData.courseId,
             values = { Status: e.toData, order: e.toIndex + 1 };
 
+        if (key === 0) {
+            return;
+        }
         this.props.datasource.update(key, values).then(() => {
             this.props.datasource.push([
                 {
@@ -172,7 +177,7 @@ class Grid extends React.Component {
             <DataGrid
                 ref={(ref) => (this.dataGrid = ref)}
                 dataSource={this.dataSource}
-                height={this.props.status === 1 ? 520 : 566}
+                height={this.props.status === 1 ? 500 : 546}
                 showBorders={true}
                 filterValue={this.filterExpr}
                 noDataText=""
@@ -284,6 +289,21 @@ class Grid extends React.Component {
                         onClick={(e) => this.onDeleteClick(e)}
                     />
                 </Column>
+                {/* <Column
+                    type="buttons"
+                    caption="加入"
+                    alignment="center"
+                    width={50}
+                    visible={!this.checkStatus(this.props.status)}
+                >
+                    <Button
+                        id="removeButton"
+                        width={80}
+                        icon={addLogo}
+                        cssClass="dx-icon-custom-style"
+                        onClick={(e) => this.onAddClick(e)}
+                    />
+                </Column> */}
             </DataGrid>
         );
     }

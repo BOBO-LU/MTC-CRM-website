@@ -10,7 +10,10 @@ import Snackbar from "../Snackbar/snackbar";
 import { PickerDate, PickerTime } from "../DatePicker/datePicker";
 import Query from "devextreme/data/query";
 import DateFnsAdapter from "@date-io/date-fns";
-
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 import { courseList } from "./data";
 import "./style.css";
 
@@ -21,6 +24,14 @@ const styles = (theme) => ({
         margin: "1%",
         width: "14%",
         fontSize: 3,
+    },
+    endTime: {
+        margin: "1%",
+        width: "10%",
+    },
+    formControl: {
+        margin: "1%",
+        width: "10%",
     },
 });
 
@@ -194,21 +205,31 @@ class App extends React.Component {
                         onSelectedTime={(date) => this.handleTimeChange(date)}
                     />
                     <TextField
-                        className={classes.root}
+                        className={(classes.root, classes.endTime)}
                         id="standard-read-only-input"
                         key={this.state.renderkey}
                         label="END TIME"
                         defaultValue={this.state.endTime}
                         InputProps={{ readOnly: true }}
                     />
-                    <TextField
-                        className={classes.root}
-                        id="location"
-                        label="LOCATION"
-                        onChange={(value) => this.handleLocation(value)}
-                    />
+                    <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-label">
+                            LOCATION
+                        </InputLabel>
+                        <Select
+                            // className={classes.root}
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={this.state.location}
+                            label="LOCATION"
+                            onChange={(value) => this.handleLocation(value)}
+                        >
+                            <MenuItem value={"POC2"}>POC2</MenuItem>
+                            <MenuItem value={"EC Room"}>EC Room</MenuItem>
+                        </Select>
+                    </FormControl>
                 </div>
-                <div style={{ padding: "2% 1% 0", "font-size": "20px" }}>
+                <div style={{ padding: "1% 1% 0", "font-size": "20px" }}>
                     MTC briefing coordinator : Vivian Lee / Karin Chuang
                 </div>
                 <div className="tables">

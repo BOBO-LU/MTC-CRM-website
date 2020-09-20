@@ -52,7 +52,9 @@ function Snackbar(props) {
             .then((data) => {
                 console.log("fetch data: ", data);
             })
-            .catch(console.log("error catch by post in snackbar.jsx"));
+            .catch((err) => {
+                console.log("error catch by post in snackbar.jsx", err);
+            });
     };
     const tobackendpostbyaxios = (
         startTime,
@@ -94,7 +96,8 @@ function Snackbar(props) {
                 props.engagementId === "" ||
                 props.requester === "" ||
                 props.location === "" ||
-                props.date === ""
+                props.date === "" ||
+                props.courseList === []
             ) {
                 return true;
             } else {
