@@ -45,6 +45,7 @@ function Snackbar(props) {
                     requester: requester,
                     location: location,
                     courselist: courselist,
+                    endTime: startTime,
                 },
             }),
         })
