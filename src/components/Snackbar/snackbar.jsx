@@ -3,7 +3,7 @@ import axios from "axios";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { SnackbarProvider, useSnackbar } from "notistack";
-
+import DataSource from "devextreme/data/data_source";
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(1),
@@ -65,50 +65,68 @@ function Snackbar(props) {
                 });
             });
     };
+    const statusFilter = (store) => {
+        var rt;
+        var ds = new DataSource({
+            store: store,
+            filter: ["Status", "=", 2],
+        });
+        ds.load().done(function (result) {
+            rt = result;
+        });
+        return rt;
+    };
 
     const handleClickVariant = (variant) => () => {
         // variant could be success, error, warning, info, or default
-
-        var checkTextNull = () => {
+        const filterCourseList = statusFilter(props.courseList);
+        console.log("filterCourseList: ", filterCourseList);
+        //檢查文字方塊是否為空
+        const checkTextNull = () => {
             if (
                 props.startTime == null ||
                 props.engagementId === "" ||
                 props.requester === "" ||
                 props.location === "" ||
                 props.date === "" ||
-                props.courseList === []
+                filterCourseList === []
             ) {
                 return true;
             } else {
                 return false;
             }
         };
-        var checkSpeakerNull = () => {
-            var list = props.courseList;
+
+        //檢查講師是否為空
+        const checkSpeakerNull = () => {
+            var list = filterCourseList;
+            var isNull = false;
             console.log("list: ", list);
             //檢查status == 2 的課程中，講師是否為空，如果為空，回傳true( 真的是空的 )
             list.forEach((element) => {
                 if (element.speaker === "") {
                     console.log("speaker == null, ", element);
-                    return true;
+                    isNull = true;
                 }
             });
-            return false;
+            return isNull;
         };
-        checkSpeakerNull();
-        var checkText = checkTextNull();
-        if (checkText) {
-            console.log("checkNUll True, something is null(ebapp)");
+
+        if (checkTextNull()) {
+            console.log("checkTextNull, something is null(ebapp)");
             console.log(
                 props.startTime,
                 props.date,
                 props.engagementId,
                 props.requester,
                 props.location,
-                props.courseList
+                filterCourseList
             );
             tobackendget();
             enqueueSnackbar("請輸入所有資料", { variant: "error" });
+        } else if (checkSpeakerNull()) {
+            console.log("checkSpeakerNull, something is null(ebapp)");
+            enqueueSnackbar("請輸入所有講師", { variant: "error" });
         } else {
             console.log("checknull False, submit success");
             console.log(
@@ -117,7 +135,7 @@ function Snackbar(props) {
                 props.engagementId,
                 props.requester,
                 props.location,
-                props.courseList
+                filterCourseList
             );
             tobackendpost(
                 props.startTime,
@@ -125,7 +143,7 @@ function Snackbar(props) {
                 props.engagementId,
                 props.requester,
                 props.location,
-                props.courseList,
+                filterCourseList,
                 variant
             );
         }

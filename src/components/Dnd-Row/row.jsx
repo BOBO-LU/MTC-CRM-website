@@ -100,9 +100,6 @@ class App extends React.Component {
             endTime: endTime,
             renderkey: Math.random(),
         });
-
-        console.log("handle: ", startTime, endTime);
-        console.log(this.statusFilter(datasource.store()));
     };
 
     addCourse = (customCourse) => {
@@ -177,18 +174,6 @@ class App extends React.Component {
             this.state.endTime,
             this.state.renderkey
         );
-    };
-
-    statusFilter = (store) => {
-        var rt;
-        var ds = new DataSource({
-            store: store,
-            filter: ["Status", "=", 2],
-        });
-        ds.load().done(function (result) {
-            rt = result;
-        });
-        return rt;
     };
 
     render() {
@@ -267,6 +252,10 @@ class App extends React.Component {
                         <Grid
                             id={1}
                             datasource={datasource.store()}
+                            data={{
+                                store: datasource.store(),
+                                reshapeOnPush: true,
+                            }}
                             status={1}
                             displayCaption={"主題"}
                         />
@@ -275,6 +264,10 @@ class App extends React.Component {
                         <Grid
                             id={2}
                             datasource={datasource.store()}
+                            data={{
+                                store: datasource.store(),
+                                reshapeOnPush: true,
+                            }}
                             status={2}
                             displayCaption={"主題"}
                             calculateEndTime={(date) =>
@@ -290,7 +283,7 @@ class App extends React.Component {
                     requester={this.state.requester}
                     location={this.state.location}
                     date={this.state.date}
-                    courseList={this.statusFilter(datasource.store())}
+                    courseList={datasource.store()}
                 />
             </div>
         );

@@ -62,8 +62,6 @@ class Grid extends React.Component {
         this.props.calculateEndTime();
     }
     onAdd(e) {
-        console.log(e);
-
         var key = e.itemData.courseId,
             values = { Status: e.toData, order: e.toIndex + 1 };
 
@@ -159,7 +157,8 @@ class Grid extends React.Component {
         return (
             <DataGrid
                 ref={(ref) => (this.dataGrid = ref)}
-                dataSource={this.dataSource}
+                // dataSource={this.dataSource}
+                dataSource={this.props.data}
                 height={"100%"}
                 showBorders={true}
                 filterValue={this.filterExpr}
