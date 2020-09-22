@@ -5,8 +5,12 @@
 
 .tables {
     display: flex;
+    /* height: 30%; */
 }
 
+.img {
+    margin: "0px 10%";
+}
 .column {
     width: 50%;
     padding: 1%;
@@ -14,7 +18,7 @@
 
 .column:first-child {
     width: 50%;
-    padding-top: 60px;
+    /* padding-top: 60px; */
     /* padding-right: 15px; */
 }
 

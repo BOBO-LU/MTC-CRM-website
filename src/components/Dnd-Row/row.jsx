@@ -16,23 +16,25 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import { courseList } from "./data";
 import "./style.css";
-
+import FormDialog from "../FormDialog/formdialog";
+import mtcLogo from "./mtclogo.jpg";
 import { addMinutes } from "./utils";
 
 const styles = (theme) => ({
     root: {
-        margin: "1%",
+        margin: "0 1%",
         width: "14%",
         fontSize: 3,
     },
     endTime: {
-        margin: "1%",
+        margin: "0 1%",
         width: "10%",
     },
-    formControl: {
-        margin: "1%",
+    location: {
+        margin: "0 1% 1%",
         width: "10%",
     },
+    textfield: {},
 });
 
 const datasource = new DataSource({
@@ -101,6 +103,26 @@ class App extends React.Component {
 
         console.log("handle: ", startTime, endTime);
         console.log(this.statusFilter(datasource.store()));
+    };
+
+    addCourse = (customCourse) => {
+        console.log("add course functino: ", customCourse);
+        datasource.store().insert(customCourse);
+        datasource
+            .store()
+            .load()
+            .then((data) => console.log(data));
+        datasource.store().push([
+            {
+                type: "update",
+                key: 0,
+                data: { order: 10 }, //暫定
+            },
+        ]);
+        this.setState({
+            renderkey: Math.random(),
+        });
+        this.calculateEndTime(0);
     };
 
     calculateEndTime = (date) => {
@@ -173,18 +195,20 @@ class App extends React.Component {
         const { classes } = this.props;
         return (
             <div className="root">
-                <div>
+                <div className="img">
                     <img
-                        width="200px"
-                        src="https://images.all-free-download.com/images/graphiclarge/microsoft_technology_center_68445.jpg"
+                        width="120px"
+                        // src="https://images.all-free-download.com/images/graphiclarge/microsoft_technology_center_68445.jpg"
+                        src={mtcLogo}
                     ></img>
                 </div>
                 <div className="textfield">
                     <TextField
                         className={classes.root}
                         id="engagementId"
-                        label="ENGAGEMENT ID"
+                        label="ENGAGEMENT TITLE"
                         onChange={(value) => this.handleEngagementId(value)}
+                        helperText="範例：[客戶名稱]標題"
                     />
                     <TextField
                         className={classes.root}
@@ -212,7 +236,7 @@ class App extends React.Component {
                         defaultValue={this.state.endTime}
                         InputProps={{ readOnly: true }}
                     />
-                    <FormControl className={classes.formControl}>
+                    <FormControl className={classes.location}>
                         <InputLabel id="demo-simple-select-label">
                             LOCATION
                         </InputLabel>
@@ -229,8 +253,14 @@ class App extends React.Component {
                         </Select>
                     </FormControl>
                 </div>
-                <div style={{ padding: "1% 1% 0", "font-size": "20px" }}>
-                    MTC briefing coordinator : Vivian Lee / Karin Chuang
+                <div>
+                    <FormDialog
+                        datasource={datasource.store()}
+                        calculateEndTime={(date) => this.calculateEndTime(date)}
+                        addCourse={(customCourse) =>
+                            this.addCourse(customCourse)
+                        }
+                    />
                 </div>
                 <div className="tables">
                     <div className="column">

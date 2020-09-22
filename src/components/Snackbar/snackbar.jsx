@@ -6,7 +6,7 @@ import { SnackbarProvider, useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        margin: theme.spacing(1.5),
+        margin: theme.spacing(1),
         // border: "5px",
         float: "right",
         "& > *": {},
@@ -32,7 +32,8 @@ function Snackbar(props) {
         engagementId,
         requester,
         location,
-        courselist
+        courselist,
+        variant
     ) => {
         fetch("https://ebbackend.azurewebsites.net", {
             headers: { "Content-Type": "application/json" },
@@ -50,48 +51,25 @@ function Snackbar(props) {
             }),
         })
             .then((res) => res.json())
-            .then((data) => {
+            .then((data, variant) => {
                 console.log("fetch data: ", data);
+                enqueueSnackbar(
+                    "已將您的初版Agenda送給MTC briefing coordinator, 後續會在與您確認最終版Agenda",
+                    { variant: "success" }
+                );
             })
             .catch((err) => {
                 console.log("error catch by post in snackbar.jsx", err);
+                enqueueSnackbar("伺服器錯誤，請稍後再試", {
+                    variant: "warning",
+                });
             });
     };
-    const tobackendpostbyaxios = (
-        startTime,
-        date,
-        engagementId,
-        requester,
-        location,
-        courselist
-    ) => {
-        console.log("start tobackendpost()");
 
-        axios
-            .post("https://ebbackend.azurewebsites.net", {
-                method: "post",
-                data: {
-                    startTime: startTime,
-                    date: date,
-                    engagementId: engagementId,
-                    requester: requester,
-                    location: location,
-                    courselist: courselist,
-                },
-            })
-            .then((response) => {
-                console.log("post res: ", response);
-                console.log(response.data);
-                console.log(response.status);
-                console.log(response.statusText);
-                console.log(response.headers);
-                console.log(response.config);
-            });
-    };
     const handleClickVariant = (variant) => () => {
         // variant could be success, error, warning, info, or default
 
-        var checkNull = () => {
+        var checkTextNull = () => {
             if (
                 props.startTime == null ||
                 props.engagementId === "" ||
@@ -105,9 +83,21 @@ function Snackbar(props) {
                 return false;
             }
         };
-
-        var check = checkNull();
-        if (check) {
+        var checkSpeakerNull = () => {
+            var list = props.courseList;
+            console.log("list: ", list);
+            //檢查status == 2 的課程中，講師是否為空，如果為空，回傳true( 真的是空的 )
+            list.forEach((element) => {
+                if (element.speaker === "") {
+                    console.log("speaker == null, ", element);
+                    return true;
+                }
+            });
+            return false;
+        };
+        checkSpeakerNull();
+        var checkText = checkTextNull();
+        if (checkText) {
             console.log("checkNUll True, something is null(ebapp)");
             console.log(
                 props.startTime,
@@ -135,11 +125,8 @@ function Snackbar(props) {
                 props.engagementId,
                 props.requester,
                 props.location,
-                props.courseList
-            );
-            enqueueSnackbar(
-                "已將您的初版Agenda送給MTC briefing coordinator, 後續會在與您確認最終版Agenda",
-                { variant }
+                props.courseList,
+                variant
             );
         }
     };
