@@ -54,7 +54,7 @@ function Snackbar(props) {
             .then((data, variant) => {
                 console.log("fetch data: ", data);
                 enqueueSnackbar(
-                    "已將您的初版Agenda送給MTC briefing coordinator, 後續會在與您確認最終版Agenda",
+                    "已將您的初版Agenda送給MTC briefing coordinator, 後續會再與您確認最終版Agenda",
                     { variant: "success" }
                 );
             })
