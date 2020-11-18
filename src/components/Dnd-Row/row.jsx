@@ -10,18 +10,31 @@ import Snackbar from "../Snackbar/snackbar";
 import { PickerDate, PickerTime } from "../DatePicker/datePicker";
 import Query from "devextreme/data/query";
 import DateFnsAdapter from "@date-io/date-fns";
-
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 import { courseList } from "./data";
 import "./style.css";
-
+import FormDialog from "../FormDialog/formdialog";
+import mtcLogo from "./mtclogo.jpg";
 import { addMinutes } from "./utils";
 
 const styles = (theme) => ({
     root: {
-        margin: "1%",
+        margin: "0 1%",
         width: "14%",
         fontSize: 3,
     },
+    endTime: {
+        margin: "0 1%",
+        width: "10%",
+    },
+    location: {
+        margin: "0 1% 1%",
+        width: "10%",
+    },
+    textfield: {},
 });
 
 const datasource = new DataSource({
@@ -87,9 +100,26 @@ class App extends React.Component {
             endTime: endTime,
             renderkey: Math.random(),
         });
+    };
 
-        console.log("handle: ", startTime, endTime);
-        console.log(this.statusFilter(datasource.store()));
+    addCourse = (customCourse) => {
+        console.log("add course functino: ", customCourse);
+        datasource.store().insert(customCourse);
+        datasource
+            .store()
+            .load()
+            .then((data) => console.log(data));
+        datasource.store().push([
+            {
+                type: "update",
+                key: 0,
+                data: { order: 10 }, //暫定
+            },
+        ]);
+        this.setState({
+            renderkey: Math.random(),
+        });
+        this.calculateEndTime(0);
     };
 
     calculateEndTime = (date) => {
@@ -146,36 +176,27 @@ class App extends React.Component {
         );
     };
 
-    statusFilter = (store) => {
-        var rt;
-        var ds = new DataSource({
-            store: store,
-            filter: ["Status", "=", 2],
-        });
-        ds.load().done(function (result) {
-            rt = result;
-        });
-        return rt;
-    };
-
     render() {
         const { classes } = this.props;
         return (
             <div className="root">
-                <div>
+                <div className="img">
                     <img
-                        width="200px"
-                        src="https://images.all-free-download.com/images/graphiclarge/microsoft_technology_center_68445.jpg"
+                        width="120px"
+                        // src="https://images.all-free-download.com/images/graphiclarge/microsoft_technology_center_68445.jpg"
+                        src={mtcLogo}
                     ></img>
                 </div>
                 <div className="textfield">
                     <TextField
                         className={classes.root}
                         id="engagementId"
-                        label="ENGAGEMENT ID"
+                        label="ENGAGEMENT TITLE"
                         onChange={(value) => this.handleEngagementId(value)}
+                        helperText="範例：[客戶名稱]標題"
                     />
                     <TextField
+                        className={classes.root}
                         id="requester"
                         label="REQUESTER (ALIAS)"
                         onChange={(value) => this.handleRequester(value)}
@@ -193,26 +214,49 @@ class App extends React.Component {
                         onSelectedTime={(date) => this.handleTimeChange(date)}
                     />
                     <TextField
+                        className={(classes.root, classes.endTime)}
                         id="standard-read-only-input"
                         key={this.state.renderkey}
                         label="END TIME"
                         defaultValue={this.state.endTime}
                         InputProps={{ readOnly: true }}
                     />
-                    <TextField
-                        id="location"
-                        label="LOCATION"
-                        onChange={(value) => this.handleLocation(value)}
-                    />
+                    <FormControl className={classes.location}>
+                        <InputLabel id="demo-simple-select-label">
+                            LOCATION
+                        </InputLabel>
+                        <Select
+                            // className={classes.root}
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={this.state.location}
+                            label="LOCATION"
+                            onChange={(value) => this.handleLocation(value)}
+                        >
+                            <MenuItem value={"POC2"}>POC2</MenuItem>
+                            <MenuItem value={"EC Room"}>EC Room</MenuItem>
+                            <MenuItem value={"Others"}>Other</MenuItem>
+                        </Select>
+                    </FormControl>
                 </div>
-                <div style={{ padding: "2% 1% 0", "font-size": "20px" }}>
-                    MTC briefing coordinator : Vivian Lee / Karin Chuang
+                <div>
+                    <FormDialog
+                        datasource={datasource.store()}
+                        calculateEndTime={(date) => this.calculateEndTime(date)}
+                        addCourse={(customCourse) =>
+                            this.addCourse(customCourse)
+                        }
+                    />
                 </div>
                 <div className="tables">
                     <div className="column">
                         <Grid
                             id={1}
                             datasource={datasource.store()}
+                            data={{
+                                store: datasource.store(),
+                                reshapeOnPush: true,
+                            }}
                             status={1}
                             displayCaption={"主題"}
                         />
@@ -221,6 +265,10 @@ class App extends React.Component {
                         <Grid
                             id={2}
                             datasource={datasource.store()}
+                            data={{
+                                store: datasource.store(),
+                                reshapeOnPush: true,
+                            }}
                             status={2}
                             displayCaption={"主題"}
                             calculateEndTime={(date) =>
@@ -236,7 +284,7 @@ class App extends React.Component {
                     requester={this.state.requester}
                     location={this.state.location}
                     date={this.state.date}
-                    courseList={this.statusFilter(datasource.store())}
+                    courseList={datasource.store()}
                 />
             </div>
         );
