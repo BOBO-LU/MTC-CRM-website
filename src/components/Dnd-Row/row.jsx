@@ -235,6 +235,7 @@ class App extends React.Component {
                         >
                             <MenuItem value={"POC2"}>POC2</MenuItem>
                             <MenuItem value={"EC Room"}>EC Room</MenuItem>
+                            <MenuItem value={"Others"}>Other</MenuItem>
                         </Select>
                     </FormControl>
                 </div>
